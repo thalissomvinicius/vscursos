@@ -65,6 +65,14 @@ export default function DashboardPage() {
     const [completedModules, setCompletedModules] = useState<string[]>([])
     const [loading, setLoading] = useState(true)
 
+    const allModulesCompleted = [
+        'modulo-1-esocial',
+        'modulo-2-s2210',
+        'modulo-3-s2220',
+        'modulo-4-s2240',
+        'modulo-5-conclusao',
+    ].every((slug) => completedModules.includes(slug))
+
     useEffect(() => {
         async function loadData() {
             const {
@@ -253,13 +261,14 @@ export default function DashboardPage() {
                             {MODULES.map((mod, idx) => (
                                 <div key={mod.slug} className={`animate-slide-up stagger-${idx + 1}`}>
                                     <ModuleCard
-                                        slug={mod.slug === 'prova-final' ? '../../prova' : mod.slug}
+                                        slug={mod.slug === 'prova-final' ? '/prova' : mod.slug}
                                         title={mod.title}
                                         description={mod.description}
                                         icon={mod.icon}
                                         order={mod.order}
                                         gradient={mod.gradient}
                                         completed={completedModules.includes(mod.slug)}
+                                        locked={mod.slug === 'prova-final' && !allModulesCompleted}
                                     />
                                 </div>
                             ))}

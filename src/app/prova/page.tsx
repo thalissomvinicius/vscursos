@@ -26,6 +26,26 @@ export default function ProvaPage() {
             }
             setUser({ id: authUser.id })
 
+            // Check prerequisites (5 modules)
+            const { data: moduleProgress } = await supabase
+                .from('progress')
+                .select('module_slug')
+                .eq('user_id', authUser.id)
+                .eq('completed', true)
+                .in('module_slug', [
+                    'modulo-1-esocial',
+                    'modulo-2-s2210',
+                    'modulo-3-s2220',
+                    'modulo-4-s2240',
+                    'modulo-5-conclusao',
+                ])
+
+            const completedCount = moduleProgress?.length || 0
+            if (completedCount < 5) {
+                router.push('/dashboard')
+                return
+            }
+
             // Check if already completed
             const { data: progress } = await supabase
                 .from('progress')

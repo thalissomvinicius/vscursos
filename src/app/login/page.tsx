@@ -19,7 +19,7 @@ export default function LoginPage() {
         setError('')
 
         try {
-            const { data, error: signInError } = await supabase.auth.signInWithPassword({
+            const { error: signInError } = await supabase.auth.signInWithPassword({
                 email,
                 password,
             })
@@ -33,8 +33,9 @@ export default function LoginPage() {
             } else {
                 window.location.href = '/dashboard'
             }
-        } catch (err: any) {
-            setError(err.message || 'Erro inesperado ao tentar entrar.')
+        } catch (err: unknown) {
+            const message = err instanceof Error ? err.message : 'Erro inesperado ao tentar entrar.'
+            setError(message)
         } finally {
             setLoading(false)
         }

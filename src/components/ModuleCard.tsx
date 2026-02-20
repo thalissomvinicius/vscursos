@@ -60,8 +60,8 @@ export default function ModuleCard({
                     {/* CTA */}
                     {!locked && (
                         <div className={`mt-3 inline-flex items-center gap-1.5 text-xs font-bold transition-all ${completed
-                                ? 'text-emerald-600'
-                                : 'text-blue-600 group-hover:text-blue-700 group-hover:gap-2.5'
+                            ? 'text-emerald-600'
+                            : 'text-blue-600 group-hover:text-blue-700 group-hover:gap-2.5'
                             }`}>
                             <span>{completed ? 'Revisar conteúdo' : 'Acessar módulo'}</span>
                             <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -74,17 +74,17 @@ export default function ModuleCard({
 
             {/* Bottom progress indicator */}
             <div className={`h-1 w-full transition-all duration-500 ${completed
-                    ? 'bg-gradient-to-r from-emerald-400 to-emerald-500'
-                    : 'bg-slate-100 group-hover:bg-blue-100'
+                ? 'bg-gradient-to-r from-emerald-400 to-emerald-500'
+                : 'bg-slate-100 group-hover:bg-blue-100'
                 }`} />
         </>
     )
 
     const className = `group relative block bg-white rounded-2xl border overflow-hidden transition-all duration-300 ${locked
-            ? 'border-slate-200 opacity-50 cursor-not-allowed'
-            : completed
-                ? 'border-emerald-100 hover:border-emerald-200 hover:shadow-xl hover:shadow-emerald-100/30 hover:-translate-y-0.5'
-                : 'border-slate-100 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-100/30 hover:-translate-y-0.5'
+        ? 'border-slate-200 opacity-50 cursor-not-allowed'
+        : completed
+            ? 'border-emerald-100 hover:border-emerald-200 hover:shadow-xl hover:shadow-emerald-100/30 hover:-translate-y-0.5'
+            : 'border-slate-100 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-100/30 hover:-translate-y-0.5'
         }`
 
     if (locked) {
@@ -92,7 +92,7 @@ export default function ModuleCard({
     }
 
     return (
-        <Link href={`/dashboard/modulo/${slug}`} className={className}>
+        <Link href={slug.startsWith('/') ? slug : `/dashboard/modulo/${slug}`} className={className}>
             {content}
         </Link>
     )
