@@ -1,4 +1,5 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js'
+import { createBrowserClient } from '@supabase/ssr'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -33,10 +34,10 @@ function getSupabaseClient() {
         url: !!supabaseUrl,
         anonKey: !!supabaseAnonKey
       })
-      // Em vez de crashar silenciosamente, retornamos null ou lançamos um erro claro
       throw new Error('Supabase Client: NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY são obrigatórios no cliente.')
     }
-    _supabaseClient = createClient(supabaseUrl, supabaseAnonKey)
+    // Usar createBrowserClient para compatibilidade total com Next.js App Router e Middleware
+    _supabaseClient = createBrowserClient(supabaseUrl, supabaseAnonKey)
   }
   return _supabaseClient
 }
