@@ -203,6 +203,26 @@ export default function DashboardPage() {
                             {/* Progress */}
                             {user && <ProgressBar userId={user.id} />}
 
+                            {/* Download Handout (Apostila) */}
+                            <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm transition-all hover:shadow-md hover:border-blue-200 group">
+                                <div className="flex items-center gap-3 mb-4">
+                                    <div className="w-10 h-10 bg-blue-100 text-blue-700 rounded-xl flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                                        📚
+                                    </div>
+                                    <h3 className="font-bold text-slate-800">Material de Apoio</h3>
+                                </div>
+                                <p className="text-sm text-slate-500 mb-5 leading-relaxed">
+                                    Tenha todo o conteúdo do curso em um só lugar. Baixe nossa apostila profissional completa em PDF.
+                                </p>
+                                <a
+                                    href="/apostila"
+                                    target="_blank"
+                                    className="block w-full text-center bg-slate-900 hover:bg-black text-white text-sm font-bold py-3.5 rounded-2xl transition-all shadow-lg shadow-slate-200 hover:-translate-y-0.5"
+                                >
+                                    Baixar Apostila Completa
+                                </a>
+                            </div>
+
                             {/* Certificate CTA */}
                             <div className="hidden lg:block">
                                 <CertificateButton allCompleted={allCompleted} />
