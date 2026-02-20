@@ -72,6 +72,7 @@ export default function ApostilaPage() {
                             { id: 'm3', title: 'S-2220 | Monitoramento da Saúde Ocupacional (ASO)', p: '08' },
                             { id: 'm4', title: 'S-2240 | Condições Ambientais e Agentes Nocivos', p: '12' },
                             { id: 'm5', title: 'Considerações Finais e Checklist Prático', p: '16' },
+                            { id: 'glos', title: 'Glossário de Termos Técnicos', p: '18' },
                         ].map((item, i) => (
                             <div key={i} className="flex items-end gap-2 group cursor-pointer hover:text-blue-700 transition-colors">
                                 <span className="text-blue-900 font-bold text-lg min-w-[20px]">{i + 1}.</span>
@@ -96,6 +97,9 @@ export default function ApostilaPage() {
                             <p className="text-slate-600 leading-relaxed mb-4">
                                 O <strong>eSocial</strong> (Sistema de Escrituração Digital das Obrigações Fiscais, Previdenciárias e Trabalhistas) é uma plataforma digital do Governo Federal que <strong>unifica o envio de informações</strong> trabalhistas, previdenciárias e fiscais dos empregadores em relação aos seus trabalhadores.
                             </p>
+                            <p className="text-slate-600 leading-relaxed mb-4">
+                                Antes do eSocial, as empresas precisavam enviar as mesmas informações para diferentes órgãos (INSS, Caixa, Ministério do Trabalho, Receita Federal) de formas distintas. O eSocial <strong>simplifica e padroniza</strong> esse processo.
+                            </p>
                             <div className="bg-blue-50 border-l-4 border-blue-700 p-6 rounded-r-xl my-6">
                                 <p className="text-blue-900 italic font-medium">
                                     💡 <strong>Em resumo:</strong> o eSocial é o "Google Docs" das obrigações trabalhistas — tudo em um só lugar, atualizado em tempo real.
@@ -108,10 +112,11 @@ export default function ApostilaPage() {
                             <p className="text-slate-600 mb-4 text-justify">
                                 Na área de <strong>Segurança e Saúde no Trabalho (SST)</strong>, o eSocial tem o papel fundamental de digitalizar documentos históricos, substituindo processos manuais complexos por envios eletrônicos padronizados.
                             </p>
+                            <p className="text-slate-600 mb-4">Esses três eventos substituem, de forma digital, documentos que antes eram preenchidos manualmente (como a CAT física e o PPP em papel).</p>
                             <ul className="space-y-3 list-none p-0">
                                 {['Registrar acidentes de trabalho (evento S-2210)', 'Monitorar a saúde dos trabalhadores (evento S-2220)', 'Mapear condições ambientais e agentes nocivos (evento S-2240)'].map((text, i) => (
-                                    <li key={i} className="flex items-center gap-3 text-slate-700">
-                                        <div className="w-2 h-2 bg-blue-700 rounded-full" />
+                                    <li key={i} className="flex items-center gap-3 text-slate-700 p-3 bg-slate-50 rounded-lg">
+                                        <div className="w-6 h-6 bg-blue-700 text-white rounded-full flex items-center justify-center text-[10px] font-bold">{i + 1}</div>
                                         {text}
                                     </li>
                                 ))}
@@ -119,21 +124,21 @@ export default function ApostilaPage() {
                         </section>
 
                         <section className="mb-10">
-                            <h3 className="text-xl font-bold text-slate-800 mb-4">📜 Legislação e Normas</h3>
-                            <table className="w-full border-collapse rounded-xl overflow-hidden shadow-sm border border-slate-100">
-                                <thead>
-                                    <tr className="bg-slate-900 text-white text-left text-sm uppercase">
-                                        <th className="p-4">Norma</th>
-                                        <th className="p-4">Descrição Principal</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="text-slate-700 divide-y divide-slate-100">
-                                    <tr className="bg-slate-50/50"><td className="p-4 font-bold">Decreto 8.373/14</td><td className="p-4">Instituiu o eSocial.</td></tr>
-                                    <tr><td className="p-4 font-bold">NR-07 (PCMSO)</td><td className="p-4">Monitoramento da saúde.</td></tr>
-                                    <tr className="bg-slate-50/50"><td className="p-4 font-bold">NR-09 (PGR)</td><td className="p-4">Gestão de riscos ambientais.</td></tr>
-                                    <tr><td className="p-4 font-bold">NR-15</td><td className="p-4">Insalubridade e agentes nocivos.</td></tr>
-                                </tbody>
-                            </table>
+                            <h3 className="text-xl font-bold text-slate-800 mb-4">📜 Legislação e Bases Legais</h3>
+                            <div className="grid grid-cols-1 gap-4 mb-6">
+                                <div className="p-4 border border-slate-100 rounded-xl">
+                                    <span className="font-bold text-blue-900">Decreto nº 8.373/2014:</span> Institui o eSocial como instrumento de unificação de obrigações.
+                                </div>
+                                <div className="p-4 border border-slate-100 rounded-xl">
+                                    <span className="font-bold text-blue-900">NR-07 (PCMSO):</span> Define as diretrizes para o monitoramento da saúde (ASO).
+                                </div>
+                                <div className="p-4 border border-slate-100 rounded-xl">
+                                    <span className="font-bold text-blue-900">NR-09 (PGR):</span> Estabelece a gestão de riscos que alimenta os dados de agentes nocivos.
+                                </div>
+                            </div>
+                            <div className="bg-amber-50 text-amber-900 p-4 rounded-xl border-l-4 border-amber-500 text-sm">
+                                ⚠️ <strong>Atenção:</strong> O não cumprimento dos prazos pode gerar multas pesadas. A conformidade não é apenas sobre o envio, mas sobre a consistência dos dados com os laudos físicos.
+                            </div>
                         </section>
                     </div>
                 </article>
@@ -147,44 +152,70 @@ export default function ApostilaPage() {
 
                     <div className="prose prose-slate max-w-none">
                         <section className="mb-10">
-                            <h3 className="text-xl font-bold text-slate-800 mb-4">Definição e Tipos</h3>
-                            <p className="text-slate-600 mb-6 italic">O evento S-2210 é a digitalização da antiga CAT física.</p>
+                            <h3 className="text-xl font-bold text-slate-800 mb-4">O que é o S-2210?</h3>
+                            <p className="text-slate-600 leading-relaxed mb-6">
+                                O <strong>S-2210</strong> é o evento do eSocial responsável por comunicar os acidentes de trabalho e doenças profissionais. Ele digitaliza a antiga CAT, permitindo que o governo fiscalize em tempo real a segurança nas empresas.
+                            </p>
+
+                            <h4 className="font-bold text-slate-800 mb-4">Categorias de Acidente:</h4>
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
                                     <h4 className="font-bold text-rose-700 mb-1">Acidente Típico</h4>
-                                    <p className="text-xs text-slate-500">Ocorrendo durante a jornada de trabalho habitual.</p>
+                                    <p className="text-[11px] text-slate-500 font-medium">Ocorrendo durante a execução das tarefas laborais.</p>
                                 </div>
                                 <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
                                     <h4 className="font-bold text-rose-700 mb-1">Acidente de Trajeto</h4>
-                                    <p className="text-xs text-slate-500">No percurso entre residência e o trabalho.</p>
+                                    <p className="text-[11px] text-slate-500 font-medium">Entre a residência e o local de trabalho.</p>
                                 </div>
                                 <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
                                     <h4 className="font-bold text-rose-700 mb-1">Doença Profissional</h4>
-                                    <p className="text-xs text-slate-500">Causada pela natureza do trabalho.</p>
+                                    <p className="text-[11px] text-slate-500 font-medium">Exclusivamente ligada à natureza do cargo.</p>
                                 </div>
                                 <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
                                     <h4 className="font-bold text-rose-700 mb-1">Doença do Trabalho</h4>
-                                    <p className="text-xs text-slate-500">Causada pelas condições ambientais específicas.</p>
+                                    <p className="text-[11px] text-slate-500 font-medium">Causada pelas condições do ambiente laboral.</p>
                                 </div>
                             </div>
                         </section>
 
                         <section className="mb-10">
-                            <h3 className="text-xl font-bold text-slate-800 mb-4">⏰ Cronograma de Prazos</h3>
-                            <div className="space-y-4">
-                                <div className="flex items-center gap-4 p-4 bg-rose-50 text-rose-900 rounded-xl">
-                                    <div className="text-2xl font-bold">24h</div>
-                                    <div className="text-sm font-medium">Casos com óbito: Envio deve ser <strong>imediato</strong>.</div>
-                                </div>
-                                <div className="flex items-center gap-4 p-4 bg-slate-50 text-slate-900 rounded-xl border border-slate-100">
-                                    <div className="text-sm font-medium">Demais casos: Até o <strong>1º dia útil</strong> seguinte ao ocorrido.</div>
-                                </div>
+                            <h3 className="text-xl font-bold text-slate-800 mb-6">📝 Passo a Passo do Preenchimento</h3>
+                            <div className="space-y-3">
+                                {[
+                                    'Identificação do trabalhador (CPF)',
+                                    'Data, hora e local do ocorrido',
+                                    'Parte do corpo atingida (Tabela 13)',
+                                    'Agente causador (Tabela 14)',
+                                    'Descrição detalhada da situação',
+                                    'Dados do atendimento médico (CID)',
+                                    'Indicação de óbito ou afastamento',
+                                ].map((step, i) => (
+                                    <div key={i} className="flex items-center gap-4 py-3 border-b border-slate-50">
+                                        <div className="w-2 h-2 rounded-full bg-rose-500" />
+                                        <span className="text-slate-700 text-sm font-medium">{step}</span>
+                                    </div>
+                                ))}
                             </div>
-                            <div className="bg-rose-600 text-white p-6 rounded-2xl mt-8 shadow-lg">
-                                <h4 className="font-bold mb-2 flex items-center gap-2">⚠️ Alerta de Multa</h4>
-                                <p className="text-sm opacity-90 leading-relaxed">
-                                    O descumprimento pode gerar multas entre R$ 1.100,00 e R$ 6.700,00 por trabalhador não informado corretamente.
-                                </p>
+                        </section>
+
+                        <section className="mb-10">
+                            <h3 className="text-xl font-bold text-slate-800 mb-4">⏰ Tabela de Prazos Cruciais</h3>
+                            <div className="bg-white border-2 border-rose-100 rounded-3xl overflow-hidden">
+                                <div className="bg-rose-600 text-white p-4 font-bold text-center">PRAZOS LEGAIS</div>
+                                <div className="p-6 space-y-4">
+                                    <div className="flex justify-between items-center pb-4 border-b border-slate-100 text-rose-900">
+                                        <span className="font-bold">Com Óbito</span>
+                                        <span className="bg-rose-100 px-3 py-1 rounded-full text-xs font-black uppercase">Imediato (24h)</span>
+                                    </div>
+                                    <div className="flex justify-between items-center text-slate-700">
+                                        <span className="font-bold">Sem Óbito</span>
+                                        <span className="bg-slate-100 px-3 py-1 rounded-full text-xs font-black uppercase">1º Dia Útil</span>
+                                    </div>
+                                    <div className="flex justify-between items-center text-slate-700">
+                                        <span className="font-bold">Doença Profissional</span>
+                                        <span className="bg-slate-100 px-3 py-1 rounded-full text-xs font-black uppercase">1º Dia Útil</span>
+                                    </div>
+                                </div>
                             </div>
                         </section>
                     </div>
@@ -197,36 +228,56 @@ export default function ApostilaPage() {
                         S-2220 | Monitoramento da Saúde (ASO)
                     </h2>
 
-                    <div className="grid grid-cols-3 gap-6 mb-12">
-                        {[
-                            { t: 'Admissional', d: 'Pré-contratação' },
-                            { t: 'Periódico', d: 'Regularmente' },
-                            { t: 'Retorno', d: 'Pós-afastamento' },
-                            { t: 'Mudança', d: 'Novo risco' },
-                            { t: 'Demissional', d: 'Pré-rescisão' },
-                        ].map((ex, i) => (
-                            <div key={i} className="text-center p-4 rounded-2xl bg-teal-50 border border-teal-100">
-                                <div className="font-bold text-teal-800 mb-1">{ex.t}</div>
-                                <div className="text-[10px] text-teal-600 uppercase tracking-wider">{ex.d}</div>
+                    <p className="text-slate-600 mb-10 leading-relaxed">
+                        Este evento registra as informações dos <strong>Atestados de Saúde Ocupacional (ASO)</strong>. É o elo entre o médico coordenador do PCMSO e a Receita Federal.
+                    </p>
+
+                    <h3 className="text-xl font-bold text-slate-800 mb-6 font-display uppercase tracking-wider">📚 Tipos de Exames Obrigatórios</h3>
+                    <table className="w-full text-sm border-spacing-0 mb-12">
+                        <thead>
+                            <tr className="bg-teal-700 text-white">
+                                <th className="p-4 text-left rounded-tl-2xl">Exame</th>
+                                <th className="p-4 text-left rounded-tr-2xl">Quando Realizar</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-teal-50 border-x border-b border-teal-50">
+                            <tr><td className="p-4 font-bold text-teal-900">Admissional</td><td className="p-4 text-slate-500">Antes do início das atividades laborais.</td></tr>
+                            <tr className="bg-teal-50/30"><td className="p-4 font-bold text-teal-900">Periódico</td><td className="p-4 text-slate-500">Em intervalos regulares durante a vigência do contrato.</td></tr>
+                            <tr><td className="p-4 font-bold text-teal-900">Demissional</td><td className="p-4 text-slate-500">Até a data do desligamento.</td></tr>
+                            <tr className="bg-teal-50/30"><td className="p-4 font-bold text-teal-900">Retorno ao Trabalho</td><td className="p-4 text-slate-500">Após afastamento superior a 30 dias.</td></tr>
+                            <tr><td className="p-4 font-bold text-teal-900">Mudança de Risco</td><td className="p-4 text-slate-500">Sempre que houver alteração de cargo com novos riscos.</td></tr>
+                        </tbody>
+                    </table>
+
+                    <div className="flex gap-8 mb-12">
+                        <div className="flex-1">
+                            <h3 className="text-xl font-bold text-slate-800 mb-4">Informações do Médico</h3>
+                            <ul className="space-y-2 text-slate-600">
+                                <li className="flex items-start gap-2">• CRM e Nome do Médico examinador</li>
+                                <li className="flex items-start gap-2">• Nome do Médico Coordenador (PCMSO)</li>
+                                <li className="flex items-start gap-2">• Identificação completa da Clínica</li>
+                            </ul>
+                        </div>
+                        <div className="flex-1">
+                            <h3 className="text-xl font-bold text-slate-800 mb-4">Exames Complementares</h3>
+                            <p className="text-sm text-slate-500 italic mb-4">Devem ser informados seguindo os códigos da **Tabela 27**:</p>
+                            <div className="grid grid-cols-2 gap-2 text-[10px] font-bold">
+                                <div className="p-2 bg-slate-50 border border-slate-100">0901 — Audiometria</div>
+                                <div className="p-2 bg-slate-50 border border-slate-100">0905 — Acuidade</div>
+                                <div className="p-2 bg-slate-50 border border-slate-100">0914 — Espirometria</div>
+                                <div className="p-2 bg-slate-50 border border-slate-100">0901 — Hemograma</div>
                             </div>
-                        ))}
+                        </div>
                     </div>
 
-                    <h3 className="text-xl font-bold text-slate-800 mb-6">📌 Dados Essenciais do ASO</h3>
-                    <div className="grid grid-cols-2 gap-x-8 gap-y-4 text-sm text-slate-700 mb-10">
-                        <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-teal-500" /> CPF do trabalhador</div>
-                        <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-teal-500" /> Data exata do exame</div>
-                        <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-teal-500" /> CRM e Nome do Médico</div>
-                        <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-teal-500" /> Resultado (Apto/Inapto)</div>
-                        <div className="flex items-center gap-2 font-bold"><div className="w-1.5 h-1.5 rounded-full bg-teal-500" /> Tabela 27 do eSocial</div>
-                        <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-teal-500" /> Exames complementares</div>
-                    </div>
-
-                    <div className="bg-slate-900 rounded-3xl p-8 text-white relative overflow-hidden">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-xl translate-x-1/4 -translate-y-1/4" />
-                        <h4 className="text-xl font-bold mb-4">Prazo de Envio S-2220</h4>
-                        <div className="text-3xl font-black text-teal-400 mb-2">Até o dia 15</div>
-                        <p className="text-slate-400 text-sm">do mês subsequente à data de realização do exame médico ocupacional.</p>
+                    <div className="bg-slate-900 rounded-3xl p-10 text-white shadow-2xl">
+                        <div className="flex justify-between items-center gap-10">
+                            <div>
+                                <h4 className="text-2xl font-black text-teal-400 mb-3 uppercase tracking-tighter italic">Prazo S-2220</h4>
+                                <p className="text-slate-400 text-sm font-medium">O envio deve ocorrer obrigatoriamente até o <strong>dia 15 do mês subsequente</strong> à data de realização do exame médico.</p>
+                            </div>
+                            <div className="text-6xl font-black text-white/5 select-none">15</div>
+                        </div>
                     </div>
                 </article>
 
@@ -237,91 +288,127 @@ export default function ApostilaPage() {
                         S-2240 | Condições Ambientais e Agentes Nocivos
                     </h2>
 
-                    <p className="text-slate-600 mb-8 leading-relaxed">
-                        Este é o evento para registro do <strong>Perfil Profissiográfico Previdenciário (PPP)</strong> eletrônico. Ele deve listar as exposições habituais de forma detalhada.
-                    </p>
-
-                    <div className="flex gap-4 mb-10">
-                        <div className="flex-1 p-5 rounded-2xl border-2 border-amber-50 bg-white">
-                            <h4 className="font-bold text-amber-900 mb-3 flex items-center gap-2">🧪 Categorias</h4>
-                            <div className="space-y-2 text-sm text-slate-500">
-                                <div>• Químicos (Gases, poeiras)</div>
-                                <div>• Físicos (Ruído, calor)</div>
-                                <div>• Biológicos (Vírus, bactérias)</div>
-                                <div>• Ergonômicos (Postura)</div>
+                    <div className="prose prose-slate max-w-none">
+                        <section className="mb-12">
+                            <h3 className="text-xl font-bold text-slate-800 mb-6">Categorias de Agentes Nocivos (Mapeamento)</h3>
+                            <div className="grid grid-cols-2 gap-6">
+                                <div className="p-6 bg-amber-50 rounded-3xl border border-amber-100">
+                                    <div className="text-2xl mb-2">Químicos</div>
+                                    <p className="text-xs text-amber-900/60 leading-relaxed">Poeiras, fumos, gases, vapores e substâncias tóxicas como solventes e tintas.</p>
+                                </div>
+                                <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                                    <div className="text-2xl mb-2 text-slate-700">Físicos</div>
+                                    <p className="text-xs text-slate-500 leading-relaxed">Ruído, vibrações, calor/frio extremas e radiações (ionizantes e não ionizantes).</p>
+                                </div>
+                                <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                                    <div className="text-2xl mb-2 text-slate-700">Biológicos</div>
+                                    <p className="text-xs text-slate-500 leading-relaxed">Micro-organismos como vírus, bactérias e fungos (comum em hospitais).</p>
+                                </div>
+                                <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                                    <div className="text-2xl mb-2 text-slate-700">Ergonômicos</div>
+                                    <p className="text-xs text-slate-500 leading-relaxed">Repetitividade, posturas inadequadas e manuseio de carga excessiva.</p>
+                                </div>
                             </div>
-                        </div>
-                        <div className="flex-1 p-5 rounded-2xl border-2 border-slate-50 bg-slate-50/30">
-                            <h4 className="font-bold text-slate-900 mb-3 flex items-center gap-2">🛡️ Equipamentos</h4>
-                            <div className="space-y-2 text-sm text-slate-500">
-                                <div>• EPC (Proteção Coletiva)</div>
-                                <div>• EPI (Proteção Individual)</div>
-                                <div>• CA obrigatório do EPI</div>
-                                <div>• Declaração de Eficácia</div>
+                        </section>
+
+                        <section className="mb-12">
+                            <h3 className="text-xl font-bold text-slate-800 mb-6">🛡️ Proteções (EPI e EPC)</h3>
+                            <p className="text-slate-600 mb-6">No evento S-2240, é obrigatório informar o CA (Certificado de Aprovação) de cada EPI e declarar se a proteção é eficaz na atenuação dos riscos detectados.</p>
+                            <div className="bg-slate-900 p-8 rounded-3xl text-white shadow-lg">
+                                <div className="grid grid-cols-2 gap-10">
+                                    <div>
+                                        <h4 className="font-bold text-amber-400 mb-4">Dados Técnicos</h4>
+                                        <ul className="text-xs space-y-3 opacity-80">
+                                            <li>• CPF do Responsável Técnico</li>
+                                            <li>• Registro Profissional (Eng. ou Med.)</li>
+                                            <li>• Data de início da exposição</li>
+                                            <li>• Intensidade/Concentração mensurada</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 className="font-bold text-amber-400 mb-4">Tabela 24</h4>
+                                        <p className="text-[10px] opacity-70 leading-relaxed">Contém todos os códigos de agentes nocivos que serão cruzados com a Tabela de Previdência para fins de Aposentadoria Especial.</p>
+                                    </div>
+                                </div>
                             </div>
+                        </section>
+
+                        <div className="p-8 bg-amber-100 border-2 border-amber-200 rounded-3xl text-amber-900 italic font-medium text-center">
+                            "A ausência de agentes nocivos deve ser informada obrigatoriamente através do código correspondente de 'Ausência de Exposição'."
                         </div>
-                    </div>
-
-                    <h3 className="text-xl font-bold text-slate-800 mb-4">📊 Referência: Tabela 24</h3>
-                    <p className="text-xs text-slate-400 mb-4 italic uppercase tracking-widest">Base de códigos para agentes nocivos</p>
-                    <div className="grid grid-cols-3 gap-2 text-center text-[11px] font-bold text-slate-500 mb-12">
-                        <div className="p-3 bg-slate-100 rounded-lg">02.01.014 - Ruído</div>
-                        <div className="p-3 bg-slate-100 rounded-lg">01.18.001 - Benzeno</div>
-                        <div className="p-3 bg-slate-100 rounded-lg">03.01.001 - Bactor</div>
-                    </div>
-
-                    <div className="p-8 bg-amber-500 rounded-3xl text-white shadow-xl shadow-amber-500/20">
-                        <p className="font-medium opacity-90 leading-relaxed italic">
-                            "Atenção: O envio do S-2240 é obrigatório para <strong>todos os trabalhadores</strong>, incluindo aqueles com ausência de exposição."
-                        </p>
                     </div>
                 </article>
 
                 {/* ────── CONCLUSÃO ────── */}
-                <article className="py-16 px-12">
+                <article className="py-16 px-12 break-after-page">
                     <div className="text-indigo-600 font-bold uppercase tracking-widest text-sm mb-4">Módulo Final</div>
-                    <h2 className="text-4xl font-extrabold text-blue-900 mb-8 border-b-4 border-indigo-100 pb-4 text-center">
-                        Checklist e Considerações Finais
+                    <h2 className="text-4xl font-extrabold text-blue-900 mb-8 border-b-4 border-indigo-100 pb-4 text-center font-display">
+                        Checklist Estratégico SST
                     </h2>
 
-                    <div className="p-8 bg-white border border-slate-200 rounded-3xl shadow-sm mb-12">
-                        <h3 className="text-xl font-bold text-slate-800 mb-6">📝 Rotina de Conformidade</h3>
-                        <div className="space-y-4">
+                    <div className="p-10 bg-white border-2 border-slate-100 rounded-[40px] shadow-lg mb-12">
+                        <h3 className="text-2xl font-black text-slate-800 mb-8 flex items-center gap-4 italic underline decoration-blue-500">CONFORMIDADE DIÁRIA</h3>
+                        <div className="space-y-6">
                             {[
-                                'Verificar acidentes do período e prazos da CAT',
-                                'Conferir todos os ASOs realizados no mês anterior',
-                                'Sincronizar dados entre PGR e eSocial (S-2240)',
-                                'Auditar Certificados de Aprovação (CA) de EPIs',
-                                'Backup de protocolos de envio e recibos do portal',
-                            ].map((text, i) => (
-                                <div key={i} className="flex gap-4">
-                                    <div className="w-6 h-6 border-2 border-slate-200 rounded-lg flex-shrink-0 flex items-center justify-center">
-                                        <div className="w-3 h-3 bg-slate-200 rounded-sm" />
+                                { t: 'S-2210 (CAT)', d: 'Auditar se todos os acidentes típicos e de trajeto foram reportados em 24h.' },
+                                { t: 'S-2220 (ASO)', d: 'Validar se todos os exames do mês anterior possuem protocolos de envio.' },
+                                { t: 'S-2240 (Ambientes)', d: 'Revisar se houve mudança de cargo ou risco que exija novo envio.' },
+                                { t: 'EPIs/EPCs', d: 'Conferir se o CA informado no eSocial ainda está dentro da validade legal.' },
+                                { t: 'Laudos vs Digital', d: 'Garantir que os dados do PGR/LTCAT batem 100% com o que foi enviado.' },
+                            ].map((item, i) => (
+                                <div key={i} className="flex gap-6 group">
+                                    <div className="w-8 h-8 border-2 border-blue-200 rounded-xl flex-shrink-0 flex items-center justify-center p-1 group-hover:border-blue-500 transition-colors">
+                                        <div className="w-full h-full bg-slate-50 rounded-md group-hover:bg-blue-50" />
                                     </div>
-                                    <p className="text-sm text-slate-600 font-medium">{text}</p>
+                                    <div>
+                                        <h4 className="font-bold text-slate-800 text-lg mb-1">{item.t}</h4>
+                                        <p className="text-sm text-slate-500 leading-relaxed">{item.d}</p>
+                                    </div>
                                 </div>
                             ))}
                         </div>
                     </div>
 
-                    <div className="text-center py-20 bg-gradient-to-br from-blue-700 to-indigo-800 rounded-[50px] text-white overflow-hidden relative">
-                        <div className="relative z-10">
-                            <span className="text-7xl mb-6 block">🏆</span>
-                            <h3 className="text-3xl font-black mb-4">Parabéns pela Jornada!</h3>
-                            <p className="text-blue-100 max-w-sm mx-auto mb-10 text-sm leading-relaxed">
-                                Você concluiu a parte teórica e agora está apto a dominar os desafios do eSocial na Segurança do Trabalho.
-                            </p>
-                            <div className="text-xs font-bold uppercase tracking-widest bg-white/20 px-6 py-2 rounded-full inline-block">
-                                T&S Cursos • Treinando Especialistas
-                            </div>
+                    <div className="bg-gradient-to-br from-indigo-600 to-blue-800 p-12 rounded-[50px] text-white text-center shadow-xl relative overflow-hidden">
+                        <div className="absolute top-0 left-0 w-full h-full opacity-10 bg-[radial-gradient(circle_at_center,_white_1px,_transparent_1px)] bg-[length:24px_24px]" />
+                        <h3 className="text-3xl font-black mb-4">Diploma de Especialista</h3>
+                        <p className="text-blue-100 max-w-md mx-auto mb-10 text-lg">
+                            Seu Certificado Digital já está disponível para emissão no Dashboard. Continue sua evolução com os estudos recomendados em NR-01, NR-07 e NR-15.
+                        </p>
+                        <div className="inline-flex items-center gap-4 bg-white/10 backdrop-blur-xl px-10 py-4 rounded-3xl border border-white/20">
+                            <span className="text-2xl">🎓</span>
+                            <span className="font-black uppercase tracking-widest text-sm">T&S Cursos • {new Date().getFullYear()}</span>
                         </div>
                     </div>
                 </article>
 
-                {/* Contagem de Páginas */}
+                {/* ────── GLOSSÁRIO ────── */}
+                <section className="py-16 px-12">
+                    <h2 className="text-3xl font-bold text-slate-900 mb-12 flex items-center gap-3 italic">
+                        Glossário de Termos SST 📖
+                    </h2>
+                    <div className="grid grid-cols-1 gap-6">
+                        {[
+                            { t: 'ASO', d: 'Atestado de Saúde Ocupacional. Documento que declara se o trabalhador está apto para a função.' },
+                            { t: 'CAT', d: 'Comunicação de Acidente de Trabalho. Documento obrigatório para registrar acidentes ou doenças.' },
+                            { t: 'PCMSO', d: 'Programa de Controle Médico de Saúde Ocupacional. Estabelecido pela NR-07.' },
+                            { t: 'PGR', d: 'Programa de Gerenciamento de Riscos. Documento base para identificar perigos no ambiente.' },
+                            { t: 'PPP', d: 'Perfil Profissiográfico Previdenciário. Histórico laboral que agora é digital via S-2240.' },
+                            { t: 'LTCAT', d: 'Laudo Técnico das Condições Ambientais do Trabalho. Subsídio para aposentadoria especial.' },
+                            { t: 'FAP', d: 'Fator Acidentário de Prevenção. Multiplicador sobre o RAT que depende da acidentalidade.' },
+                        ].map((item, i) => (
+                            <div key={i} className="flex gap-6 pb-6 border-b border-slate-50">
+                                <div className="text-blue-700 font-black text-xl min-w-[100px]">{item.t}</div>
+                                <p className="text-sm text-slate-500 font-medium leading-relaxed">{item.d}</p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                {/* Footer de Página */}
                 <footer className="mt-20 py-8 border-t border-slate-100 flex justify-between text-[10px] text-slate-300 font-bold uppercase tracking-widest px-12 print:hidden">
-                    <div>Documento Oficial T&S Cursos</div>
-                    <div>Apostila eSocial na Prática</div>
+                    <div>T&S Cursos • Material Técnico Autorizado</div>
+                    <div>Página {new Date().toLocaleDateString('pt-BR')}</div>
                 </footer>
             </div>
 
