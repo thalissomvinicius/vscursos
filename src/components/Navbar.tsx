@@ -6,22 +6,25 @@ import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
 import { isAdmin } from '@/lib/admin'
 
-export default function Navbar({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
+export default function Navbar({ isLoggedIn: initialIsLoggedIn = false }: { isLoggedIn?: boolean }) {
     const [mobileOpen, setMobileOpen] = useState(false)
     const [isAdminUser, setIsAdminUser] = useState(false)
+    const [isLoggedIn, setIsLoggedIn] = useState(initialIsLoggedIn)
 
     const router = useRouter()
 
     useEffect(() => {
-        async function checkAdmin() {
-            if (!isLoggedIn) return
-            const { data: { user } } = await supabase.auth.getUser()
-            if (user?.email && isAdmin(user.email)) {
+        async function checkSession() {
+            const { data: { session } } = await supabase.auth.getSession()
+            const loggedIn = !!session
+            setIsLoggedIn(loggedIn)
+
+            if (loggedIn && session.user?.email && isAdmin(session.user.email)) {
                 setIsAdminUser(true)
             }
         }
-        checkAdmin()
-    }, [isLoggedIn])
+        checkSession()
+    }, [initialIsLoggedIn])
 
     async function handleLogout() {
         await supabase.auth.signOut()
