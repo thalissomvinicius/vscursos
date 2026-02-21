@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Navbar from '@/components/Navbar'
+import { supabase } from '@/lib/supabase'
 
 const WHATSAPP_NUMBER = '5591992770425'
 const WHATSAPP_MESSAGE = encodeURIComponent('Olá! Tenho interesse no curso eSocial na Prática — SST da T&S Cursos. Gostaria de mais informações sobre como adquirir.')
@@ -60,6 +61,38 @@ const FAQ_ITEMS = [
 
 export default function LandingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const [verifyCode, setVerifyCode] = useState('')
+  const [verifyLoading, setVerifyLoading] = useState(false)
+  const [verifyResult, setVerifyResult] = useState<{ user_name: string; created_at: string } | null>(null)
+  const [verifyError, setVerifyError] = useState('')
+
+  async function handleVerify(e: React.FormEvent) {
+    e.preventDefault()
+    const trimmed = verifyCode.trim()
+    if (!trimmed || verifyLoading) return
+
+    setVerifyLoading(true)
+    setVerifyError('')
+    setVerifyResult(null)
+
+    try {
+      const { data, error } = await supabase
+        .from('certificates')
+        .select('user_name, created_at')
+        .eq('code', trimmed)
+        .single()
+
+      if (error || !data) {
+        setVerifyError('Certificado não encontrado. Verifique o código e tente novamente.')
+      } else {
+        setVerifyResult(data)
+      }
+    } catch {
+      setVerifyError('Erro ao validar. Tente novamente.')
+    } finally {
+      setVerifyLoading(false)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -242,6 +275,67 @@ export default function LandingPage() {
                   <p className="text-sm font-semibold mt-1">{item.text}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="validar" className="py-20 px-4 bg-slate-50">
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-white rounded-3xl border border-slate-100 shadow-xl shadow-blue-100/30 overflow-hidden">
+            <div className="bg-gradient-to-r from-blue-700 to-indigo-800 p-8 text-center text-white">
+              <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-4 backdrop-blur-md">
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              </div>
+              <h2 className="text-2xl font-extrabold mb-2">Validador de Certificados</h2>
+              <p className="text-blue-100/80 text-sm">Verifique a autenticidade do certificado pelo código.</p>
+            </div>
+
+            <div className="p-8">
+              <form onSubmit={handleVerify} className="space-y-4">
+                <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest">
+                  Código de Validação
+                </label>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <input
+                    value={verifyCode}
+                    onChange={(e) => setVerifyCode(e.target.value)}
+                    placeholder="Ex: TES-1716234567890-ABCD12"
+                    className="flex-1 rounded-xl border border-slate-200 px-4 py-3 text-slate-700 font-semibold placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                  <button
+                    type="submit"
+                    disabled={verifyLoading}
+                    className="bg-blue-700 hover:bg-blue-800 text-white font-bold px-6 py-3 rounded-xl transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {verifyLoading ? 'Verificando...' : 'Verificar'}
+                  </button>
+                </div>
+              </form>
+
+              {verifyError && (
+                <div className="mt-6 bg-red-50 border border-red-200 text-red-700 rounded-2xl p-4 text-sm font-semibold">
+                  {verifyError}
+                </div>
+              )}
+
+              {verifyResult && (
+                <div className="mt-6 bg-green-50 border border-green-200 text-green-800 rounded-2xl p-5 text-sm">
+                  <div className="font-bold text-green-700 mb-2">Certificado válido</div>
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <div className="bg-white rounded-xl p-4 border border-green-100">
+                      <div className="text-[11px] font-bold uppercase tracking-widest text-green-600 mb-1">Aluno</div>
+                      <div className="font-semibold text-slate-800">{verifyResult.user_name}</div>
+                    </div>
+                    <div className="bg-white rounded-xl p-4 border border-green-100">
+                      <div className="text-[11px] font-bold uppercase tracking-widest text-green-600 mb-1">Emissão</div>
+                      <div className="font-semibold text-slate-800">{new Date(verifyResult.created_at).toLocaleDateString('pt-BR')}</div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
