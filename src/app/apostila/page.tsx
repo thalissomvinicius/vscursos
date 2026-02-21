@@ -17,45 +17,32 @@ function ApostilaContent() {
             const element = containerRef.current
 
             const canvas = await html2canvas(element, {
-                scale: 1.0, // Escala conservadora para estabilidade máxima
+                scale: 1.0,
                 useCORS: true,
                 logging: false,
                 backgroundColor: '#ffffff',
                 windowWidth: element.scrollWidth || 794,
                 onclone: (clonedDoc) => {
-                    // 1. Força visibilidade dos elementos de impressão
                     const printOnly = clonedDoc.querySelectorAll('.print-only') as NodeListOf<HTMLElement>
                     printOnly.forEach(el => el.style.display = 'block')
 
-                    // 2. Remove decorações "radioativas" (que usam oklch pesado e travam o parser)
                     const hazard = clonedDoc.querySelectorAll('.blur-3xl, .blur-2xl, [class*="bg-blue-50/50"], [class*="bg-gradient-"]') as NodeListOf<HTMLElement>
                     hazard.forEach(el => el.remove())
 
-                    // 3. Sanitizador de Estilos (Varredura Total)
                     const allElements = clonedDoc.querySelectorAll('*') as NodeListOf<HTMLElement>
                     allElements.forEach(el => {
-                        const style = window.getComputedStyle(el)
-                        const isBad = (val: string) => val && (val.includes('okl') || val.includes('lab(') || val.includes('color('))
-
-                        // Substituição garantida por HEX seguro
-                        if (isBad(style.color)) el.style.color = '#1e293b'
-                        if (isBad(style.backgroundColor)) el.style.backgroundColor = '#ffffff'
-
-                        // Bordas individuais (O ofensor oculto do Tailwind v4)
-                        if (isBad(style.borderTopColor)) el.style.borderTopColor = '#e2e8f0'
-                        if (isBad(style.borderBottomColor)) el.style.borderBottomColor = '#e2e8f0'
-                        if (isBad(style.borderLeftColor)) el.style.borderLeftColor = '#e2e8f0'
-                        if (isBad(style.borderRightColor)) el.style.borderRightColor = '#e2e8f0'
-
-                        if (isBad(style.boxShadow)) el.style.boxShadow = 'none'
-                        if (isBad(style.filter)) el.style.filter = 'none'
-                        if (isBad(style.fill)) el.style.fill = '#1e293b'
-                        if (isBad(style.stroke)) el.style.stroke = '#1e293b'
-
-                        // Garante que o backgroundImage não tenha cores modernas
-                        if (style.backgroundImage && isBad(style.backgroundImage)) {
-                            el.style.backgroundImage = 'none'
-                        }
+                        el.style.setProperty('color', 'rgb(30, 41, 59)', 'important')
+                        el.style.setProperty('background-color', 'rgb(255, 255, 255)', 'important')
+                        el.style.setProperty('border-color', 'rgb(226, 232, 240)', 'important')
+                        el.style.setProperty('outline-color', 'rgb(226, 232, 240)', 'important')
+                        el.style.setProperty('text-decoration-color', 'rgb(100, 116, 139)', 'important')
+                        el.style.setProperty('caret-color', 'rgb(30, 41, 59)', 'important')
+                        el.style.setProperty('column-rule-color', 'rgb(226, 232, 240)', 'important')
+                        el.style.setProperty('box-shadow', 'none', 'important')
+                        el.style.setProperty('filter', 'none', 'important')
+                        el.style.setProperty('background-image', 'none', 'important')
+                        el.style.setProperty('fill', 'rgb(30, 41, 59)', 'important')
+                        el.style.setProperty('stroke', 'rgb(30, 41, 59)', 'important')
                     })
                 }
             })
