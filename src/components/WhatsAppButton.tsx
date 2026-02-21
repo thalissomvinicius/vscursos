@@ -10,7 +10,7 @@ export default function WhatsAppButton() {
             href={WHATSAPP_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl shadow-green-500/30 transition-all hover:scale-110 animate-pulse-glow"
+            className="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl shadow-green-500/30 transition-all hover:scale-110 animate-pulse-glow print:hidden"
             aria-label="WhatsApp"
         >
             <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">

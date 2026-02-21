@@ -1,10 +1,14 @@
 'use client'
 
-import React, { useEffect, Suspense } from 'react'
+import React, { useEffect, Suspense, useState, useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
+import jsPDF from 'jspdf'
+import html2canvas from 'html2canvas'
 
 function ApostilaContent() {
     const searchParams = useSearchParams()
+    const [isDownloading, setIsDownloading] = useState(false)
+    const containerRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         if (searchParams.get('print') === 'true') {
@@ -15,10 +19,87 @@ function ApostilaContent() {
         }
     }, [searchParams])
 
+    const handleDownloadPDF = async () => {
+        if (!containerRef.current || isDownloading) return
+
+        try {
+            setIsDownloading(true)
+
+            const element = containerRef.current
+
+            // Força a visibilidade dos elementos "print-only" durante a captura
+            const printOnlyElements = element.querySelectorAll('.print-only') as NodeListOf<HTMLElement>
+            printOnlyElements.forEach(el => el.style.display = 'block')
+
+            const canvas = await html2canvas(element, {
+                scale: 2, // Aumenta a qualidade
+                useCORS: true,
+                logging: false,
+                backgroundColor: '#ffffff',
+                windowWidth: 794, // Largura aproximada de A4 em pixels (96 DPI)
+            })
+
+            // Restaura a ocultação dos elementos
+            printOnlyElements.forEach(el => el.style.display = '')
+
+            const imgData = canvas.toDataURL('image/jpeg', 0.95)
+            const pdf = new jsPDF('p', 'mm', 'a4')
+
+            const pdfWidth = pdf.internal.pageSize.getWidth()
+            const pdfHeight = pdf.internal.pageSize.getHeight()
+
+            const imgWidth = canvas.width
+            const imgHeight = canvas.height
+
+            const ratio = pdfWidth / imgWidth
+            const totalPdfHeight = imgHeight * ratio
+
+            let heightLeft = totalPdfHeight
+            let position = 0
+
+            // Adiciona a primeira página
+            pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, totalPdfHeight)
+            heightLeft -= pdfHeight
+
+            // Adiciona páginas subsequentes se necessário
+            while (heightLeft >= 0) {
+                position = heightLeft - totalPdfHeight
+                pdf.addPage()
+                pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, totalPdfHeight)
+                heightLeft -= pdfHeight
+            }
+
+            pdf.save(`Apostila_eSocial_SST_TS_Cursos.pdf`)
+        } catch (error) {
+            console.error('Erro ao gerar PDF:', error)
+            alert('Erro ao gerar o PDF. Por favor, tente imprimir usando o botão de impressão comum.')
+        } finally {
+            setIsDownloading(false)
+        }
+    }
+
     return (
         <div className="min-h-screen bg-white text-slate-900 font-sans print:bg-white print:text-black overflow-x-hidden">
-            {/* Botão de Impressão (Oculto na impressão) */}
-            <div className="fixed bottom-24 right-6 sm:bottom-8 sm:right-8 z-50 print:hidden">
+            {/* Botões de Ação (Ocultos na impressão) */}
+            <div className="fixed bottom-24 right-6 sm:bottom-8 sm:right-8 z-50 print:hidden flex flex-col gap-3">
+                {/* Botão de Download Direto (Novo) */}
+                <button
+                    onClick={handleDownloadPDF}
+                    disabled={isDownloading}
+                    className={`${isDownloading ? 'bg-slate-400' : 'bg-green-600 hover:bg-green-700'} text-white font-bold p-4 sm:px-6 sm:py-4 rounded-2xl shadow-2xl flex items-center gap-2 transition-all hover:scale-105 active:scale-95 disabled:scale-100`}
+                >
+                    {isDownloading ? (
+                        <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
+                    ) : (
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                    )}
+                    <span className="hidden sm:inline">{isDownloading ? 'Gerando Arquivo...' : 'Baixar Arquivo PDF'}</span>
+                    <span className="sm:hidden text-xs">{isDownloading ? '...' : 'Baixar'}</span>
+                </button>
+
+                {/* Botão de Impressão Original */}
                 <button
                     onClick={() => window.print()}
                     className="bg-blue-700 hover:bg-blue-800 text-white font-bold p-4 sm:px-6 sm:py-4 rounded-2xl shadow-2xl flex items-center gap-2 transition-all hover:scale-105 active:scale-95"
@@ -31,7 +112,7 @@ function ApostilaContent() {
                 </button>
             </div>
 
-            <div className="w-full max-w-[210mm] mx-auto bg-white p-0 sm:p-8 lg:p-12 shadow-none sm:shadow-2xl print:shadow-none print:p-0">
+            <div ref={containerRef} className="w-full max-w-[210mm] mx-auto bg-white p-0 sm:p-8 lg:p-12 shadow-none sm:shadow-2xl print:shadow-none print:p-0">
                 {/* ────── PRINT HEADER (Only visible on print) ────── */}
                 <div className="print-only fixed top-0 left-0 right-0 h-[30mm] px-[20mm] py-8 bg-white z-[100] pointer-events-none">
                     <div className="flex justify-between items-center h-full border-b border-slate-200 pb-2">
