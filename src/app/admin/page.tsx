@@ -241,7 +241,7 @@ export default function AdminPage() {
                                         </label>
                                         <input
                                             id="admin-password"
-                                            type="text"
+                                            type="password"
                                             required
                                             placeholder="senha123"
                                             value={formPassword}

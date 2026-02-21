@@ -10,6 +10,7 @@ const MODULES = [
     { slug: 'modulo-4-s2240', title: 'S-2240 | Agentes Nocivos', icon: '⚠️' },
     { slug: 'modulo-5-conclusao', title: 'Considerações Finais', icon: '🎓' },
 ]
+const MODULE_SLUGS = MODULES.map((module) => module.slug)
 
 export default function ProgressBar({ userId }: { userId: string }) {
     const [progress, setProgress] = useState<string[]>([])
@@ -23,7 +24,9 @@ export default function ProgressBar({ userId }: { userId: string }) {
                 .eq('user_id', userId)
                 .eq('completed', true)
 
-            setProgress(data?.map((d) => d.module_slug) || [])
+            const moduleSlugs = data?.map((d) => d.module_slug) || []
+            const filteredSlugs = Array.from(new Set(moduleSlugs.filter((slug) => MODULE_SLUGS.includes(slug))))
+            setProgress(filteredSlugs)
             setLoading(false)
         }
         fetchProgress()

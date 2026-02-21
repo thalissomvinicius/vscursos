@@ -58,6 +58,8 @@ const MODULES = [
         gradient: 'from-slate-800 to-slate-900',
     },
 ]
+const MODULE_SLUGS = MODULES.map((module) => module.slug)
+const CORE_MODULE_SLUGS = MODULE_SLUGS.filter((slug) => slug !== 'prova-final')
 
 export default function DashboardPage() {
     const router = useRouter()
@@ -65,13 +67,9 @@ export default function DashboardPage() {
     const [completedModules, setCompletedModules] = useState<string[]>([])
     const [loading, setLoading] = useState(true)
 
-    const allModulesCompleted = [
-        'modulo-1-esocial',
-        'modulo-2-s2210',
-        'modulo-3-s2220',
-        'modulo-4-s2240',
-        'modulo-5-conclusao',
-    ].every((slug) => completedModules.includes(slug))
+    const completedSet = new Set(completedModules)
+    const allModulesCompleted = CORE_MODULE_SLUGS.every((slug) => completedSet.has(slug))
+    const allCompleted = MODULE_SLUGS.every((slug) => completedSet.has(slug))
 
     useEffect(() => {
         async function loadData() {
@@ -93,7 +91,9 @@ export default function DashboardPage() {
                 .eq('user_id', authUser.id)
                 .eq('completed', true)
 
-            setCompletedModules(progress?.map((p) => p.module_slug) || [])
+            const moduleSlugs = progress?.map((p) => p.module_slug) || []
+            const filteredSlugs = Array.from(new Set(moduleSlugs.filter((slug) => MODULE_SLUGS.includes(slug))))
+            setCompletedModules(filteredSlugs)
             setLoading(false)
         }
 
@@ -115,8 +115,6 @@ export default function DashboardPage() {
             </div>
         )
     }
-
-    const allCompleted = completedModules.length >= MODULES.length
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
@@ -232,7 +230,7 @@ export default function DashboardPage() {
                                     Acesse o manual técnico em <strong>PDF</strong> com todo o conteúdo para consulta rápida.
                                 </p>
                                 <a
-                                    href="/apostila?print=true"
+                                    href="/apostila"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="block w-full text-center bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold py-3.5 rounded-2xl transition-all shadow-lg flex items-center justify-center gap-2"
@@ -255,7 +253,7 @@ export default function DashboardPage() {
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-2 px-1">
                                 <h2 className="font-extrabold text-xl text-slate-800">Seus Módulos</h2>
                                 <span className="text-xs font-bold text-blue-600 bg-blue-50 border border-blue-100 rounded-full px-4 py-1.5 self-start sm:self-auto">
-                                    {completedModules.length}/{MODULES.length} concluídos
+                                    {completedModules.length}/{MODULE_SLUGS.length} concluídos
                                 </span>
                             </div>
 

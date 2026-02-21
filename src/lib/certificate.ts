@@ -160,7 +160,7 @@ export async function generateCertificatePDF(props: CertificateProps): Promise<A
 
     doc.setFontSize(8)
     doc.setTextColor(150, 150, 150)
-    doc.text('Emitido por T&S Cursos Tecnologia de Ensino Ltda.', 40, 182)
+    doc.text(`Emitido por ${issuedBy}`, 40, 182)
     doc.text('CNPJ: 42.255.656/0001-03', 40, 186)
 
     // ──────────────────────────────────────

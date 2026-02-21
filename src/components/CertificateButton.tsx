@@ -3,10 +3,6 @@
 import Link from 'next/link'
 
 interface CertificateButtonProps {
-    // The provided "Code Edit" snippet for this section is syntactically incorrect.
-    // It attempts to place React hook usage and a return statement inside an interface definition.
-    // To maintain syntactic correctness as per instructions, this specific part of the "Code Edit" cannot be applied literally.
-    // The original `allCompleted: boolean` prop is retained to keep the component functional.
     allCompleted: boolean
 }
 
@@ -16,7 +12,6 @@ export default function CertificateButton({ allCompleted }: CertificateButtonPro
             ? 'bg-gradient-to-br from-amber-50 to-yellow-50 border-amber-300 shadow-lg shadow-amber-100/50'
             : 'bg-slate-50 border-slate-200'
             }`}>
-            {/* Stacked vertical layout */}
             <div className="text-center">
                 <span className={`text-4xl block mb-3 ${allCompleted ? 'animate-bounce' : 'grayscale opacity-40'}`}>
                     🎓

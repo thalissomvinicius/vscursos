@@ -1,25 +1,15 @@
 'use client'
 
-import React, { useEffect, Suspense, useState, useRef } from 'react'
-import { useSearchParams } from 'next/navigation'
+import React, { useEffect, Suspense, useState, useRef, useCallback } from 'react'
 import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 
 function ApostilaContent() {
-    const searchParams = useSearchParams()
     const [isDownloading, setIsDownloading] = useState(false)
     const containerRef = useRef<HTMLDivElement>(null)
+    const autoDownloadRef = useRef(false)
 
-    useEffect(() => {
-        if (searchParams.get('print') === 'true') {
-            const timer = setTimeout(() => {
-                window.print()
-            }, 500)
-            return () => clearTimeout(timer)
-        }
-    }, [searchParams])
-
-    const handleDownloadPDF = async () => {
+    const handleDownloadPDF = useCallback(async () => {
         if (!containerRef.current || isDownloading) return
 
         try {
@@ -97,11 +87,20 @@ function ApostilaContent() {
         } catch (error: unknown) {
             console.error('Erro detalhado ao gerar PDF:', error)
             const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido'
-            alert(`Erro ao gerar o PDF: ${errorMessage}. Por favor, tente usar o botão azul de "Imprimir / Salvar PDF" do próprio navegador.`)
+            alert(`Erro ao gerar o PDF: ${errorMessage}. Tente novamente.`)
         } finally {
             setIsDownloading(false)
         }
-    }
+    }, [isDownloading])
+
+    useEffect(() => {
+        if (autoDownloadRef.current) return
+        autoDownloadRef.current = true
+        const timer = setTimeout(() => {
+            handleDownloadPDF()
+        }, 300)
+        return () => clearTimeout(timer)
+    }, [handleDownloadPDF])
 
     return (
         <div className="min-h-screen bg-white text-slate-900 font-sans print:bg-white print:text-black overflow-x-hidden">
@@ -124,17 +123,6 @@ function ApostilaContent() {
                     <span className="sm:hidden text-xs">{isDownloading ? '...' : 'Baixar'}</span>
                 </button>
 
-                {/* Botão de Impressão Original */}
-                <button
-                    onClick={() => window.print()}
-                    className="bg-blue-700 hover:bg-blue-800 text-white font-bold p-4 sm:px-6 sm:py-4 rounded-2xl shadow-2xl flex items-center gap-2 transition-all hover:scale-105 active:scale-95"
-                >
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-                    </svg>
-                    <span className="hidden sm:inline">Imprimir / Salvar PDF</span>
-                    <span className="sm:hidden text-xs">PDF</span>
-                </button>
             </div>
 
             <div ref={containerRef} className="w-full max-w-[210mm] mx-auto bg-white p-0 sm:p-8 lg:p-12 shadow-none sm:shadow-2xl print:shadow-none print:p-0">

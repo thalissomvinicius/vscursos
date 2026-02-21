@@ -31,18 +31,26 @@ export async function POST(req: NextRequest) {
             )
         }
 
-        // Verify all modules completed
-        const TOTAL_MODULES = 5
+        const requiredModules = [
+            'modulo-1-esocial',
+            'modulo-2-s2210',
+            'modulo-3-s2220',
+            'modulo-4-s2240',
+            'modulo-5-conclusao',
+            'prova-final',
+        ]
         const { data: progressData } = await supabaseAdmin
             .from('progress')
             .select('module_slug')
             .eq('user_id', userId)
             .eq('completed', true)
+            .in('module_slug', requiredModules)
 
-        if (!progressData || progressData.length < TOTAL_MODULES) {
+        const completedSlugs = new Set(progressData?.map((item) => item.module_slug) || [])
+        if (completedSlugs.size < requiredModules.length) {
             return NextResponse.json(
                 {
-                    error: `Conclua todos os módulos para emitir o certificado. Progresso: ${progressData?.length || 0}/${TOTAL_MODULES}.`,
+                    error: `Conclua todos os módulos e a Prova Final para emitir o certificado. Progresso: ${completedSlugs.size}/${requiredModules.length}.`,
                 },
                 { status: 400 }
             )

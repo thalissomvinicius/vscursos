@@ -23,20 +23,21 @@ export default function QuizCard({ questions, onComplete, passingPercentage = 50
         if (isAnswered) return
         setSelectedOption(optionIndex)
         setIsAnswered(true)
-        if (optionIndex === question.correct) {
-            setCorrectCount((prev) => prev + 1)
-        }
     }
 
     function handleNext() {
+        const isCorrect = selectedOption === question.correct
+        const nextCorrectCount = isCorrect ? correctCount + 1 : correctCount
         if (currentIndex < questions.length - 1) {
+            setCorrectCount(nextCorrectCount)
             setCurrentIndex((prev) => prev + 1)
             setSelectedOption(null)
             setIsAnswered(false)
         } else {
+            setCorrectCount(nextCorrectCount)
             setFinished(true)
-            const passed = (correctCount + (selectedOption === question.correct ? 1 : 0)) >= Math.ceil(questions.length * (passingPercentage / 100))
-            if (onComplete) onComplete(passed, correctCount + (selectedOption === question.correct ? 1 : 0))
+            const passed = nextCorrectCount >= Math.ceil(questions.length * (passingPercentage / 100))
+            if (onComplete) onComplete(passed, nextCorrectCount)
         }
     }
 
