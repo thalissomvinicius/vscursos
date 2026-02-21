@@ -27,25 +27,37 @@ function ApostilaContent() {
 
             const element = containerRef.current
 
-            // Força a visibilidade dos elementos "print-only" e remove filtros problemáticos (blur)
+            // Força a visibilidade dos elementos "print-only" e remove filtros problemáticos (blur e oklab/oklch)
             const printOnlyElements = element.querySelectorAll('.print-only') as NodeListOf<HTMLElement>
             printOnlyElements.forEach(el => el.style.display = 'block')
 
-            // Remove temporariamente filtros de blur que fazem o html2canvas falhar
-            const blurredElements = element.querySelectorAll('[class*="blur-"]') as NodeListOf<HTMLElement>
-            blurredElements.forEach(el => el.style.filter = 'none')
+            // Remove temporariamente filtros e cores problemáticas (oklab/oklch não suportados pelo html2canvas)
+            const problematicElements = element.querySelectorAll('[class*="blur-"], [class*="bg-gradient-"]') as NodeListOf<HTMLElement>
+            problematicElements.forEach(el => {
+                el.style.filter = 'none'
+                el.style.backgroundImage = 'none' // Remove gradientes oklch que travam o gerador
+                el.style.backgroundColor = '#1d4ed8' // Fallback para um azul sólido seguro se for um elemento vital
+            })
 
             const canvas = await html2canvas(element, {
-                scale: 1.5, // Equilíbrio entre qualidade e memória
+                scale: 1.5,
                 useCORS: true,
                 logging: false,
                 backgroundColor: '#ffffff',
                 windowWidth: element.scrollWidth || 794,
+                ignoreElements: (el) => {
+                    // Ignora elementos que sabemos que usam cores problemáticas se não forem essenciais
+                    return el.classList.contains('blur-3xl') || el.classList.contains('bg-blue-50/50')
+                }
             })
 
             // Restaura o estado original
             printOnlyElements.forEach(el => el.style.display = '')
-            blurredElements.forEach(el => el.style.filter = '')
+            problematicElements.forEach(el => {
+                el.style.filter = ''
+                el.style.backgroundImage = ''
+                el.style.backgroundColor = ''
+            })
 
             const imgData = canvas.toDataURL('image/jpeg', 0.95)
             const pdf = new jsPDF('p', 'mm', 'a4')
