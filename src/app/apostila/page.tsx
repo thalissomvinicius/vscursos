@@ -24,11 +24,10 @@ function ApostilaContent() {
 
         try {
             setIsDownloading(true)
-
             const element = containerRef.current
 
             const canvas = await html2canvas(element, {
-                scale: 1.2,
+                scale: 1.0, // Escala conservadora para estabilidade máxima
                 useCORS: true,
                 logging: false,
                 backgroundColor: '#ffffff',
@@ -38,23 +37,34 @@ function ApostilaContent() {
                     const printOnly = clonedDoc.querySelectorAll('.print-only') as NodeListOf<HTMLElement>
                     printOnly.forEach(el => el.style.display = 'block')
 
-                    // 2. Sanitizador Nuclear de Estilos (Limpeza total de OKLCH/OKLAB)
+                    // 2. Remove decorações "radioativas" (que usam oklch pesado e travam o parser)
+                    const hazard = clonedDoc.querySelectorAll('.blur-3xl, .blur-2xl, [class*="bg-blue-50/50"], [class*="bg-gradient-"]') as NodeListOf<HTMLElement>
+                    hazard.forEach(el => el.remove())
+
+                    // 3. Sanitizador de Estilos (Varredura Total)
                     const allElements = clonedDoc.querySelectorAll('*') as NodeListOf<HTMLElement>
                     allElements.forEach(el => {
                         const style = window.getComputedStyle(el)
-
-                        // Detecta se a cor/estilo é incompatível com o gerador
                         const isBad = (val: string) => val && (val.includes('oklch') || val.includes('oklab'))
 
+                        // Substituição garantida por HEX seguro
                         if (isBad(style.color)) el.style.color = '#1e293b'
                         if (isBad(style.backgroundColor)) el.style.backgroundColor = '#ffffff'
-                        if (isBad(style.borderColor)) el.style.borderColor = '#e2e8f0'
+
+                        // Bordas individuais (O ofensor oculto do Tailwind v4)
+                        if (isBad(style.borderTopColor)) el.style.borderTopColor = '#e2e8f0'
+                        if (isBad(style.borderBottomColor)) el.style.borderBottomColor = '#e2e8f0'
+                        if (isBad(style.borderLeftColor)) el.style.borderLeftColor = '#e2e8f0'
+                        if (isBad(style.borderRightColor)) el.style.borderRightColor = '#e2e8f0'
+
                         if (isBad(style.boxShadow)) el.style.boxShadow = 'none'
                         if (isBad(style.filter)) el.style.filter = 'none'
+                        if (isBad(style.fill)) el.style.fill = '#1e293b'
+                        if (isBad(style.stroke)) el.style.stroke = '#1e293b'
 
+                        // Garante que o backgroundImage não tenha oklch
                         if (style.backgroundImage && style.backgroundImage.includes('okl')) {
                             el.style.backgroundImage = 'none'
-                            el.style.backgroundColor = '#1d4ed8' // Azul T&S
                         }
                     })
                 }
@@ -65,21 +75,17 @@ function ApostilaContent() {
 
             const pdfWidth = pdf.internal.pageSize.getWidth()
             const pdfHeight = pdf.internal.pageSize.getHeight()
-
             const imgWidth = canvas.width
             const imgHeight = canvas.height
-
             const ratio = pdfWidth / imgWidth
             const totalPdfHeight = imgHeight * ratio
 
             let heightLeft = totalPdfHeight
             let position = 0
 
-            // Adiciona a primeira página
             pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, totalPdfHeight)
             heightLeft -= pdfHeight
 
-            // Adiciona páginas subsequentes se necessário
             while (heightLeft >= 0) {
                 position = heightLeft - totalPdfHeight
                 pdf.addPage()
