@@ -312,7 +312,7 @@ export async function GET(req: NextRequest) {
 
         // Merge data
         const users = authData.users
-            .filter(u => !isAdmin(u.email, u.user_metadata))
+            // .filter(u => !isAdmin(u.email, u.user_metadata)) // Allow admins to be listed
             .map(u => {
                 const purchase = purchases?.find(p => p.user_id === u.id || p.email === u.email)
                 return {
