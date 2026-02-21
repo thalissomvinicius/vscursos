@@ -19,10 +19,30 @@ export default function ApostilaPage() {
             </div>
 
             <div className="max-w-[210mm] mx-auto bg-white p-0 sm:p-8 lg:p-12 shadow-2xl print:shadow-none print:p-0">
+                {/* ────── PRINT HEADER (Only visible on print) ────── */}
+                <div className="hidden print:block fixed top-0 left-0 right-0 h-[20mm] border-b border-slate-200 px-[20mm] py-4 bg-white z-[100]">
+                    <div className="flex justify-between items-center h-full">
+                        <div className="flex items-center gap-2">
+                            <span className="text-xl font-extrabold text-blue-800">T&S</span>
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Treinamentos</span>
+                        </div>
+                        <div className="text-[10px] font-bold text-slate-400 text-right uppercase tracking-widest">
+                            Apostila Técnica — eSocial SST
+                        </div>
+                    </div>
+                </div>
+
+                {/* ────── PRINT FOOTER (Only visible on print) ────── */}
+                <div className="hidden print:block fixed bottom-0 left-0 right-0 h-[15mm] border-t border-slate-100 px-[20mm] py-4 bg-white z-[100] text-center">
+                    <div className="text-[8px] font-bold text-slate-300 uppercase tracking-widest">
+                        © {new Date().getFullYear()} T&S CURSOS • DOCUMENTO PARA USO DIDÁTICO • WWW.TES-TREINAMENTOS.VERCEL.APP
+                    </div>
+                </div>
+
                 {/* ────── CAPA ────── */}
-                <section className="min-h-[297mm] flex flex-col items-center justify-center text-center border-[20px] border-blue-900/5 p-12 relative overflow-hidden break-after-page">
-                    <div className="absolute top-0 right-0 w-96 h-96 bg-blue-50/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-                    <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-50/50 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+                <section className="min-h-[297mm] flex flex-col items-center justify-center text-center border-[20px] border-blue-900/5 p-12 relative overflow-hidden break-after-page print:border-none print:bg-white print:min-h-[257mm] print:pt-[20mm] print:pb-[15mm]">
+                    <div className="absolute top-0 right-0 w-96 h-96 bg-blue-50/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 print:hidden" />
+                    <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-50/50 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 print:hidden" />
 
                     <div className="relative z-10">
                         <div className="flex items-center justify-center gap-3 mb-16">
@@ -31,37 +51,37 @@ export default function ApostilaPage() {
                                 <span className="text-slate-300 mx-px">&</span>
                                 <span className="text-blue-700">S</span>
                             </span>
-                            <div className="text-left">
+                            <div className="text-left print:hidden">
                                 <div className="text-xl font-bold text-slate-800 tracking-widest uppercase">Treinamentos</div>
                                 <div className="h-1 w-full bg-blue-700 mt-1" />
                             </div>
                         </div>
 
-                        <h1 className="text-5xl font-black text-slate-900 leading-tight mb-8">
+                        <h1 className="text-5xl font-black text-slate-900 leading-tight mb-8 print:text-6xl">
                             eSocial na Prática <br />
                             <span className="text-blue-700">Segurança e Saúde no Trabalho</span>
                         </h1>
 
                         <div className="w-24 h-2 bg-blue-700 mx-auto mb-12 rounded-full" />
 
-                        <p className="text-xl text-slate-500 font-medium mb-24 uppercase tracking-[0.2em]">
+                        <p className="text-xl text-slate-500 font-medium mb-24 uppercase tracking-[0.2em] print:mb-12">
                             Apostila Completa do Curso
                         </p>
 
-                        <div className="grid grid-cols-3 gap-8 max-w-md mx-auto py-8 border-y border-slate-100 italic text-slate-400">
+                        <div className="grid grid-cols-3 gap-8 max-w-md mx-auto py-8 border-y border-slate-100 italic text-slate-400 print:max-w-none print:w-full">
                             <div>S-2210</div>
                             <div>S-2220</div>
                             <div>S-2240</div>
                         </div>
                     </div>
 
-                    <div className="absolute bottom-12 text-slate-400 text-sm font-medium">
-                        © {new Date().getFullYear()} T&S Cursos • www.tes-treinamentos.vercel.app
+                    <div className="absolute bottom-12 text-slate-400 text-sm font-medium print:bottom-8">
+                        © {new Date().getFullYear()} T&S Cursos • Tecnologia de Ensino
                     </div>
                 </section>
 
                 {/* ────── SUMÁRIO ────── */}
-                <section className="py-16 px-12 break-after-page">
+                <section className="py-16 px-12 break-after-page print:pt-[40mm] print:px-[20mm]">
                     <h2 className="text-3xl font-bold text-blue-900 mb-12 flex items-center gap-3">
                         Sumário 📚
                     </h2>
@@ -85,20 +105,17 @@ export default function ApostilaPage() {
                 </section>
 
                 {/* ────── MÓDULO 1 ────── */}
-                <article className="py-16 px-12 break-after-page">
+                <article className="py-16 px-12 break-after-page print:pt-[40mm] print:px-[20mm]">
                     <div className="text-blue-700 font-bold uppercase tracking-widest text-sm mb-4">Módulo 01</div>
                     <h2 className="text-4xl font-extrabold text-blue-900 mb-8 border-b-4 border-blue-100 pb-4">
                         Fundamentos do eSocial na SST
                     </h2>
 
                     <div className="prose prose-slate max-w-none">
-                        <section className="mb-10">
+                        <section className="mb-10 avoid-break-inside">
                             <h3 className="text-xl font-bold text-slate-800 mb-4">O que é o eSocial?</h3>
                             <p className="text-slate-600 leading-relaxed mb-4">
                                 O <strong>eSocial</strong> (Sistema de Escrituração Digital das Obrigações Fiscais, Previdenciárias e Trabalhistas) é uma plataforma digital do Governo Federal que <strong>unifica o envio de informações</strong> trabalhistas, previdenciárias e fiscais dos empregadores em relação aos seus trabalhadores.
-                            </p>
-                            <p className="text-slate-600 leading-relaxed mb-4">
-                                Antes do eSocial, as empresas precisavam enviar as mesmas informações para diferentes órgãos (INSS, Caixa, Ministério do Trabalho, Receita Federal) de formas distintas. O eSocial <strong>simplifica e padroniza</strong> esse processo.
                             </p>
                             <div className="bg-blue-50 border-l-4 border-blue-700 p-6 rounded-r-xl my-6">
                                 <p className="text-blue-900 italic font-medium">
@@ -107,12 +124,11 @@ export default function ApostilaPage() {
                             </div>
                         </section>
 
-                        <section className="mb-10">
+                        <section className="mb-10 avoid-break-inside">
                             <h3 className="text-xl font-bold text-slate-800 mb-4">🎯 Objetivo na SST</h3>
-                            <p className="text-slate-600 mb-4 text-justify">
+                            <p className="text-slate-600 mb-4">
                                 Na área de <strong>Segurança e Saúde no Trabalho (SST)</strong>, o eSocial tem o papel fundamental de digitalizar documentos históricos, substituindo processos manuais complexos por envios eletrônicos padronizados.
                             </p>
-                            <p className="text-slate-600 mb-4">Esses três eventos substituem, de forma digital, documentos que antes eram preenchidos manualmente (como a CAT física e o PPP em papel).</p>
                             <ul className="space-y-3 list-none p-0">
                                 {['Registrar acidentes de trabalho (evento S-2210)', 'Monitorar a saúde dos trabalhadores (evento S-2220)', 'Mapear condições ambientais e agentes nocivos (evento S-2240)'].map((text, i) => (
                                     <li key={i} className="flex items-center gap-3 text-slate-700 p-3 bg-slate-50 rounded-lg">
@@ -144,35 +160,35 @@ export default function ApostilaPage() {
                 </article>
 
                 {/* ────── MÓDULO 2 ────── */}
-                <article className="py-16 px-12 break-after-page">
+                <article className="py-16 px-12 break-after-page print:pt-[40mm] print:px-[20mm]">
                     <div className="text-rose-600 font-bold uppercase tracking-widest text-sm mb-4">Módulo 02</div>
                     <h2 className="text-4xl font-extrabold text-blue-900 mb-8 border-b-4 border-rose-100 pb-4">
                         S-2210 | Comunicação de Acidente de Trabalho
                     </h2>
 
                     <div className="prose prose-slate max-w-none">
-                        <section className="mb-10">
-                            <h3 className="text-xl font-bold text-slate-800 mb-4">O que é o S-2210?</h3>
+                        <section className="mb-10 avoid-break-inside text-justify">
+                            <h3 className="text-xl font-bold text-slate-800 mb-4 font-display">O que é o S-2210?</h3>
                             <p className="text-slate-600 leading-relaxed mb-6">
                                 O <strong>S-2210</strong> é o evento do eSocial responsável por comunicar os acidentes de trabalho e doenças profissionais. Ele digitaliza a antiga CAT, permitindo que o governo fiscalize em tempo real a segurança nas empresas.
                             </p>
 
                             <h4 className="font-bold text-slate-800 mb-4">Categorias de Acidente:</h4>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-2 gap-4 print:grid-cols-2">
                                 <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
                                     <h4 className="font-bold text-rose-700 mb-1">Acidente Típico</h4>
                                     <p className="text-[11px] text-slate-500 font-medium">Ocorrendo durante a execução das tarefas laborais.</p>
                                 </div>
                                 <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
-                                    <h4 className="font-bold text-rose-700 mb-1">Acidente de Trajeto</h4>
+                                    <h4 className="font-bold text-rose-700 mb-1 text-sm">Acidente de Trajeto</h4>
                                     <p className="text-[11px] text-slate-500 font-medium">Entre a residência e o local de trabalho.</p>
                                 </div>
                                 <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
-                                    <h4 className="font-bold text-rose-700 mb-1">Doença Profissional</h4>
+                                    <h4 className="font-bold text-rose-700 mb-1 text-sm">Doença Profissional</h4>
                                     <p className="text-[11px] text-slate-500 font-medium">Exclusivamente ligada à natureza do cargo.</p>
                                 </div>
                                 <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
-                                    <h4 className="font-bold text-rose-700 mb-1">Doença do Trabalho</h4>
+                                    <h4 className="font-bold text-rose-700 mb-1 text-sm">Doença do Trabalho</h4>
                                     <p className="text-[11px] text-slate-500 font-medium">Causada pelas condições do ambiente laboral.</p>
                                 </div>
                             </div>
@@ -198,18 +214,18 @@ export default function ApostilaPage() {
                             </div>
                         </section>
 
-                        <section className="mb-10">
+                        <section className="mb-10 avoid-break-inside">
                             <h3 className="text-xl font-bold text-slate-800 mb-4">⏰ Tabela de Prazos Cruciais</h3>
-                            <div className="bg-white border-2 border-rose-100 rounded-3xl overflow-hidden">
-                                <div className="bg-rose-600 text-white p-4 font-bold text-center">PRAZOS LEGAIS</div>
+                            <div className="bg-white border-2 border-rose-100 rounded-3xl overflow-hidden print:border print:shadow-sm">
+                                <div className="bg-rose-600 text-white p-4 font-black text-center uppercase tracking-widest text-xs">PRAZOS LEGAIS</div>
                                 <div className="p-6 space-y-4">
                                     <div className="flex justify-between items-center pb-4 border-b border-slate-100 text-rose-900">
                                         <span className="font-bold">Com Óbito</span>
-                                        <span className="bg-rose-100 px-3 py-1 rounded-full text-xs font-black uppercase">Imediato (24h)</span>
+                                        <span className="bg-rose-100 px-3 py-1 rounded-full text-[10px] font-black uppercase">Imediato (24h)</span>
                                     </div>
                                     <div className="flex justify-between items-center text-slate-700">
                                         <span className="font-bold">Sem Óbito</span>
-                                        <span className="bg-slate-100 px-3 py-1 rounded-full text-xs font-black uppercase">1º Dia Útil</span>
+                                        <span className="bg-slate-100 px-3 py-1 rounded-full text-[10px] font-black uppercase">1º Dia Útil</span>
                                     </div>
                                     <div className="flex justify-between items-center text-slate-700">
                                         <span className="font-bold">Doença Profissional</span>
@@ -222,32 +238,34 @@ export default function ApostilaPage() {
                 </article>
 
                 {/* ────── MÓDULO 3 ────── */}
-                <article className="py-16 px-12 break-after-page">
+                <article className="py-16 px-12 break-after-page print:pt-[40mm] print:px-[20mm]">
                     <div className="text-teal-600 font-bold uppercase tracking-widest text-sm mb-4">Módulo 03</div>
                     <h2 className="text-4xl font-extrabold text-blue-900 mb-8 border-b-4 border-teal-100 pb-4">
                         S-2220 | Monitoramento da Saúde (ASO)
                     </h2>
 
-                    <p className="text-slate-600 mb-10 leading-relaxed">
+                    <p className="text-slate-600 mb-10 leading-relaxed avoid-break-after">
                         Este evento registra as informações dos <strong>Atestados de Saúde Ocupacional (ASO)</strong>. É o elo entre o médico coordenador do PCMSO e a Receita Federal.
                     </p>
 
                     <h3 className="text-xl font-bold text-slate-800 mb-6 font-display uppercase tracking-wider">📚 Tipos de Exames Obrigatórios</h3>
-                    <table className="w-full text-sm border-spacing-0 mb-12">
-                        <thead>
-                            <tr className="bg-teal-700 text-white">
-                                <th className="p-4 text-left rounded-tl-2xl">Exame</th>
-                                <th className="p-4 text-left rounded-tr-2xl">Quando Realizar</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-teal-50 border-x border-b border-teal-50">
-                            <tr><td className="p-4 font-bold text-teal-900">Admissional</td><td className="p-4 text-slate-500">Antes do início das atividades laborais.</td></tr>
-                            <tr className="bg-teal-50/30"><td className="p-4 font-bold text-teal-900">Periódico</td><td className="p-4 text-slate-500">Em intervalos regulares durante a vigência do contrato.</td></tr>
-                            <tr><td className="p-4 font-bold text-teal-900">Demissional</td><td className="p-4 text-slate-500">Até a data do desligamento.</td></tr>
-                            <tr className="bg-teal-50/30"><td className="p-4 font-bold text-teal-900">Retorno ao Trabalho</td><td className="p-4 text-slate-500">Após afastamento superior a 30 dias.</td></tr>
-                            <tr><td className="p-4 font-bold text-teal-900">Mudança de Risco</td><td className="p-4 text-slate-500">Sempre que houver alteração de cargo com novos riscos.</td></tr>
-                        </tbody>
-                    </table>
+                    <div className="avoid-break-inside mb-12">
+                        <table className="w-full text-sm border-spacing-0">
+                            <thead>
+                                <tr className="bg-teal-700 text-white">
+                                    <th className="p-4 text-left rounded-tl-2xl">Exame</th>
+                                    <th className="p-4 text-left rounded-tr-2xl">Quando Realizar</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-teal-50 border-x border-b border-teal-50">
+                                <tr><td className="p-4 font-bold text-teal-900">Admissional</td><td className="p-4 text-slate-500">Antes do início das atividades laborais.</td></tr>
+                                <tr className="bg-teal-50/30"><td className="p-4 font-bold text-teal-900">Periódico</td><td className="p-4 text-slate-500">Em intervalos regulares.</td></tr>
+                                <tr><td className="p-4 font-bold text-teal-900">Demissional</td><td className="p-4 text-slate-500">Até a data do desligamento.</td></tr>
+                                <tr className="bg-teal-50/30"><td className="p-4 font-bold text-teal-900">Retorno Trabalho</td><td className="p-4 text-slate-500">Após afastamento &gt; 30 dias.</td></tr>
+                                <tr><td className="p-4 font-bold text-teal-900">Mudança de Risco</td><td className="p-4 text-slate-500">Sempre que houver alteração de cargo com novos riscos.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
 
                     <div className="flex gap-8 mb-12">
                         <div className="flex-1">
@@ -270,7 +288,7 @@ export default function ApostilaPage() {
                         </div>
                     </div>
 
-                    <div className="bg-slate-900 rounded-3xl p-10 text-white shadow-2xl">
+                    <div className="bg-slate-900 rounded-3xl p-10 text-white shadow-2xl avoid-break-inside">
                         <div className="flex justify-between items-center gap-10">
                             <div>
                                 <h4 className="text-2xl font-black text-teal-400 mb-3 uppercase tracking-tighter italic">Prazo S-2220</h4>
@@ -282,7 +300,7 @@ export default function ApostilaPage() {
                 </article>
 
                 {/* ────── MÓDULO 4 ────── */}
-                <article className="py-16 px-12 break-after-page">
+                <article className="py-16 px-12 break-after-page print:pt-[40mm] print:px-[20mm]">
                     <div className="text-amber-600 font-bold uppercase tracking-widest text-sm mb-4">Módulo 04</div>
                     <h2 className="text-4xl font-extrabold text-blue-900 mb-8 border-b-4 border-amber-100 pb-4">
                         S-2240 | Condições Ambientais e Agentes Nocivos
@@ -290,15 +308,15 @@ export default function ApostilaPage() {
 
                     <div className="prose prose-slate max-w-none">
                         <section className="mb-12">
-                            <h3 className="text-xl font-bold text-slate-800 mb-6">Categorias de Agentes Nocivos (Mapeamento)</h3>
-                            <div className="grid grid-cols-2 gap-6">
+                            <h3 className="text-xl font-bold text-slate-800 mb-6">Categorias de Agentes Nocivos</h3>
+                            <div className="grid grid-cols-2 gap-6 avoid-break-inside">
                                 <div className="p-6 bg-amber-50 rounded-3xl border border-amber-100">
-                                    <div className="text-2xl mb-2">Químicos</div>
-                                    <p className="text-xs text-amber-900/60 leading-relaxed">Poeiras, fumos, gases, vapores e substâncias tóxicas como solventes e tintas.</p>
+                                    <div className="text-lg font-bold mb-2">Químicos</div>
+                                    <p className="text-[10px] text-amber-900/60 leading-relaxed font-medium">Poeiras, gases, vapores e substâncias tóxicas.</p>
                                 </div>
                                 <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100">
-                                    <div className="text-2xl mb-2 text-slate-700">Físicos</div>
-                                    <p className="text-xs text-slate-500 leading-relaxed">Ruído, vibrações, calor/frio extremas e radiações (ionizantes e não ionizantes).</p>
+                                    <div className="text-lg font-bold mb-2 text-slate-700">Físicos</div>
+                                    <p className="text-[10px] text-slate-500 leading-relaxed font-medium">Ruído, vibrações, calor e radiações.</p>
                                 </div>
                                 <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100">
                                     <div className="text-2xl mb-2 text-slate-700">Biológicos</div>
@@ -311,23 +329,22 @@ export default function ApostilaPage() {
                             </div>
                         </section>
 
-                        <section className="mb-12">
+                        <section className="mb-12 avoid-break-inside">
                             <h3 className="text-xl font-bold text-slate-800 mb-6">🛡️ Proteções (EPI e EPC)</h3>
                             <p className="text-slate-600 mb-6">No evento S-2240, é obrigatório informar o CA (Certificado de Aprovação) de cada EPI e declarar se a proteção é eficaz na atenuação dos riscos detectados.</p>
                             <div className="bg-slate-900 p-8 rounded-3xl text-white shadow-lg">
                                 <div className="grid grid-cols-2 gap-10">
                                     <div>
-                                        <h4 className="font-bold text-amber-400 mb-4">Dados Técnicos</h4>
-                                        <ul className="text-xs space-y-3 opacity-80">
+                                        <h4 className="font-bold text-amber-400 mb-4 text-xs uppercase tracking-widest">Controle Obrigatório</h4>
+                                        <ul className="text-[10px] space-y-3 opacity-80 font-medium">
                                             <li>• CPF do Responsável Técnico</li>
-                                            <li>• Registro Profissional (Eng. ou Med.)</li>
-                                            <li>• Data de início da exposição</li>
-                                            <li>• Intensidade/Concentração mensurada</li>
+                                            <li>• Registro Profissional (Eng/Med)</li>
+                                            <li>• Intensidade mensurada</li>
                                         </ul>
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-amber-400 mb-4">Tabela 24</h4>
-                                        <p className="text-[10px] opacity-70 leading-relaxed">Contém todos os códigos de agentes nocivos que serão cruzados com a Tabela de Previdência para fins de Aposentadoria Especial.</p>
+                                        <h4 className="font-bold text-amber-400 mb-4 text-xs uppercase tracking-widest">Tabela 24</h4>
+                                        <p className="text-[10px] opacity-70 leading-relaxed font-medium">Códigos de agentes nocivos para cruzamento com Aposentadoria Especial.</p>
                                     </div>
                                 </div>
                             </div>

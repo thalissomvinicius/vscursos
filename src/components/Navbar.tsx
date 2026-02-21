@@ -115,33 +115,35 @@ export default function Navbar({ isLoggedIn: initialIsLoggedIn = false }: { isLo
 
             {/* Mobile menu */}
             {mobileOpen && (
-                <div className="md:hidden bg-white border-t border-slate-100 shadow-lg">
-                    <div className="px-4 py-4 space-y-3">
-                        <Link href="/#modulos" className="block text-sm font-medium text-slate-600 hover:text-blue-700" onClick={() => setMobileOpen(false)}>
-                            Módulos
+                <div className="md:hidden bg-white/95 backdrop-blur-md border-t border-slate-100 shadow-2xl animate-in slide-in-from-top-4 duration-200">
+                    <div className="px-5 py-6 space-y-4">
+                        <Link href="/#modulos" className="block text-base font-bold text-slate-700 hover:text-blue-700 py-2 border-b border-slate-50 transition-colors" onClick={() => setMobileOpen(false)}>
+                            📚 Módulos
                         </Link>
-                        <Link href="/#certificado" className="block text-sm font-medium text-slate-600 hover:text-blue-700" onClick={() => setMobileOpen(false)}>
-                            Certificado
+                        <Link href="/#certificado" className="block text-base font-bold text-slate-700 hover:text-blue-700 py-2 border-b border-slate-50 transition-colors" onClick={() => setMobileOpen(false)}>
+                            🎓 Certificado
                         </Link>
-                        <Link href="/#faq" className="block text-sm font-medium text-slate-600 hover:text-blue-700" onClick={() => setMobileOpen(false)}>
-                            FAQ
+                        <Link href="/#faq" className="block text-base font-bold text-slate-700 hover:text-blue-700 py-2 border-b border-slate-50 transition-colors" onClick={() => setMobileOpen(false)}>
+                            ❓ FAQ
                         </Link>
                         {isAdminUser && (
-                            <Link href="/admin" className="block text-sm font-medium text-amber-600 hover:text-amber-700" onClick={() => setMobileOpen(false)}>
+                            <Link href="/admin" className="block text-base font-bold text-amber-600 hover:text-amber-700 py-2 border-b border-slate-50 transition-colors" onClick={() => setMobileOpen(false)}>
                                 🔧 Painel Admin
                             </Link>
                         )}
-                        <Link
-                            href={isLoggedIn ? '/dashboard' : '/login'}
-                            className="block w-full text-center bg-blue-700 hover:bg-blue-800 text-white text-sm font-bold px-5 py-2.5 rounded-xl transition"
-                            onClick={() => setMobileOpen(false)}
-                        >
-                            {isLoggedIn ? 'Meu Painel' : 'Entrar'}
-                        </Link>
+                        <div className="pt-2">
+                            <Link
+                                href={isLoggedIn ? '/dashboard' : '/login'}
+                                className="block w-full text-center bg-blue-700 hover:bg-blue-800 text-white text-base font-black px-5 py-4 rounded-2xl transition-all shadow-lg active:scale-95"
+                                onClick={() => setMobileOpen(false)}
+                            >
+                                {isLoggedIn ? 'Meu Painel' : 'Acessar Conta'}
+                            </Link>
+                        </div>
                         {isLoggedIn && (
                             <button
                                 onClick={handleLogout}
-                                className="block w-full text-center text-sm font-bold text-slate-400 hover:text-red-500 py-2 transition"
+                                className="block w-full text-center text-sm font-bold text-slate-400 hover:text-red-500 py-3 transition-colors mt-2"
                             >
                                 Sair da conta
                             </button>

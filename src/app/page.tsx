@@ -56,10 +56,6 @@ const FAQ_ITEMS = [
     q: 'Qual a forma de pagamento?',
     a: 'Aceitamos PIX e cartões de crédito/débito via link de pagamento direto. É rápido, seguro e com aprovação instantânea. Basta nos chamar no WhatsApp!',
   },
-  {
-    q: 'E se eu não gostar?',
-    a: 'Você tem 7 dias de garantia incondicional. Se não gostar, devolvemos 100% do valor.',
-  },
 ]
 
 export default function LandingPage() {
@@ -286,7 +282,6 @@ export default function LandingPage() {
                   'Código de validação único',
                   'Acesso vitalício ao conteúdo',
                   'Atualizações futuras inclusas',
-                  '7 dias de garantia',
                 ].map((item, i) => (
                   <li key={i} className="flex items-center gap-3 text-sm text-slate-600">
                     <span className="w-5 h-5 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">
@@ -325,21 +320,6 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* ───── GARANTIA ───── */}
-      <section className="py-16 px-4 bg-white">
-        <div className="max-w-2xl mx-auto text-center">
-          <span className="text-5xl mb-4 block">🛡️</span>
-          <h2 className="text-2xl font-extrabold text-slate-800 mb-4">
-            7 dias de garantia incondicional
-          </h2>
-          <p className="text-slate-500 leading-relaxed">
-            Se por qualquer motivo você não ficar satisfeito com o curso, basta nos enviar uma
-            mensagem dentro de 7 dias e devolvemos <strong>100% do seu dinheiro</strong>.
-            Sem perguntas, sem burocracia.
-          </p>
         </div>
       </section>
 

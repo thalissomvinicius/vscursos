@@ -82,8 +82,8 @@ export default function LoginPage() {
             </div>
 
             {/* Right side — Login form */}
-            <div className="w-full lg:w-1/2 flex items-center justify-center p-6 bg-white">
-                <div className="w-full max-w-sm">
+            <div className="w-full lg:w-1/2 flex items-center justify-center p-6 bg-white min-h-screen">
+                <div className="w-full max-w-sm flex flex-col justify-center min-h-[80vh] lg:min-h-0">
                     {/* Mobile Logo */}
                     <div className="lg:hidden text-center mb-8">
                         <div className="text-3xl font-extrabold">
@@ -101,7 +101,7 @@ export default function LoginPage() {
                         Use o e-mail e senha fornecidos pelo administrador.
                     </p>
 
-                    <form onSubmit={handleSubmit} className="space-y-4">
+                    <form onSubmit={handleSubmit} className="space-y-6">
                         <div>
                             <label htmlFor="login-email" className="block text-sm font-semibold text-slate-700 mb-2">
                                 E-mail
@@ -113,7 +113,7 @@ export default function LoginPage() {
                                 placeholder="seu@email.com"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="w-full border border-slate-200 rounded-xl px-4 py-3.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-sm"
+                                className="w-full border border-slate-200 rounded-xl px-4 py-4 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-base sm:text-sm"
                             />
                         </div>
 
@@ -129,12 +129,12 @@ export default function LoginPage() {
                                     placeholder="••••••••"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full border border-slate-200 rounded-xl px-4 py-3.5 pr-12 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-sm"
+                                    className="w-full border border-slate-200 rounded-xl px-4 py-4 pr-12 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-base sm:text-sm"
                                 />
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition"
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-slate-400 hover:text-slate-600 transition"
                                 >
                                     {showPassword ? (
                                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

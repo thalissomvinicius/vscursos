@@ -250,31 +250,33 @@ export default function DashboardPage() {
                         </div>
 
                         {/* Main content */}
-                        <div className="lg:col-span-2 space-y-4">
-                            <div className="flex items-center justify-between mb-2">
+                        <div className="lg:col-span-2 space-y-6">
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-2 px-1">
                                 <h2 className="font-extrabold text-xl text-slate-800">Seus Módulos</h2>
-                                <span className="text-xs font-bold text-slate-400 bg-slate-100 rounded-full px-3 py-1">
+                                <span className="text-xs font-bold text-blue-600 bg-blue-50 border border-blue-100 rounded-full px-4 py-1.5 self-start sm:self-auto">
                                     {completedModules.length}/{MODULES.length} concluídos
                                 </span>
                             </div>
 
-                            {MODULES.map((mod, idx) => (
-                                <div key={mod.slug} className={`animate-slide-up stagger-${idx + 1}`}>
-                                    <ModuleCard
-                                        slug={mod.slug === 'prova-final' ? '/prova' : mod.slug}
-                                        title={mod.title}
-                                        description={mod.description}
-                                        icon={mod.icon}
-                                        order={mod.order}
-                                        gradient={mod.gradient}
-                                        completed={completedModules.includes(mod.slug)}
-                                        locked={mod.slug === 'prova-final' && !allModulesCompleted}
-                                    />
-                                </div>
-                            ))}
+                            <div className="grid gap-4">
+                                {MODULES.map((mod, idx) => (
+                                    <div key={mod.slug} className={`animate-slide-up stagger-${idx + 1}`}>
+                                        <ModuleCard
+                                            slug={mod.slug === 'prova-final' ? '/prova' : mod.slug}
+                                            title={mod.title}
+                                            description={mod.description}
+                                            icon={mod.icon}
+                                            order={mod.order}
+                                            gradient={mod.gradient}
+                                            completed={completedModules.includes(mod.slug)}
+                                            locked={mod.slug === 'prova-final' && !allModulesCompleted}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
 
                             {/* Mobile certificate */}
-                            <div className="lg:hidden mt-6">
+                            <div className="lg:hidden mt-10">
                                 <CertificateButton allCompleted={allCompleted} />
                             </div>
                         </div>
