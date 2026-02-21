@@ -98,7 +98,10 @@ export default function AdminPage() {
             const data = await res.json()
 
             if (res.ok) {
-                setFormSuccess(`✅ Usuário ${formEmail} criado com sucesso!`)
+                const emailStatus = data.email_sent
+                    ? ' E-mail enviado com sucesso.'
+                    : ` Usuário criado, mas o e-mail não foi enviado. ${data.email_error || ''}`.trim()
+                setFormSuccess(`✅ Usuário ${formEmail} criado com sucesso!${emailStatus}`)
                 setFormName('')
                 setFormEmail('')
                 setFormPassword('')
