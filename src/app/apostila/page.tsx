@@ -1,13 +1,12 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 
-export default function ApostilaPage() {
+function ApostilaContent() {
     const searchParams = useSearchParams()
 
     useEffect(() => {
-        // Se a URL contiver ?print=true, dispara a impressão após um breve delay para garantir o carregamento
         if (searchParams.get('print') === 'true') {
             const timer = setTimeout(() => {
                 window.print()
@@ -135,7 +134,7 @@ export default function ApostilaPage() {
                             </p>
                             <div className="bg-blue-50 border-l-4 border-blue-700 p-6 rounded-r-xl my-6">
                                 <p className="text-blue-900 italic font-medium">
-                                    💡 <strong>Em resumo:</strong> o eSocial é o "Google Docs" das obrigações trabalhistas — tudo em um só lugar, atualizado em tempo real.
+                                    💡 <strong>Em resumo:</strong> o eSocial é o &quot;Google Docs&quot; das obrigações trabalhistas — tudo em um só lugar, atualizado em tempo real.
                                 </p>
                             </div>
                         </section>
@@ -367,7 +366,7 @@ export default function ApostilaPage() {
                         </section>
 
                         <div className="p-8 bg-amber-100 border-2 border-amber-200 rounded-3xl text-amber-900 italic font-medium text-center">
-                            "A ausência de agentes nocivos deve ser informada obrigatoriamente através do código correspondente de 'Ausência de Exposição'."
+                            &quot;A ausência de agentes nocivos deve ser informada obrigatoriamente através do código correspondente de &apos;Ausência de Exposição&apos;.&quot;
                         </div>
                     </div>
                 </article>
@@ -474,5 +473,17 @@ export default function ApostilaPage() {
                 }
             `}</style>
         </div>
+    )
+}
+
+export default function ApostilaPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-white flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-700"></div>
+            </div>
+        }>
+            <ApostilaContent />
+        </Suspense>
     )
 }
