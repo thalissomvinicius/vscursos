@@ -33,8 +33,8 @@ function ApostilaContent() {
 
             <div className="w-full max-w-[210mm] mx-auto bg-white p-0 sm:p-8 lg:p-12 shadow-none sm:shadow-2xl print:shadow-none print:p-0">
                 {/* ────── PRINT HEADER (Only visible on print) ────── */}
-                <div className="hidden print:block fixed top-0 left-0 right-0 h-[20mm] border-b border-slate-200 px-[20mm] py-4 bg-white z-[100]">
-                    <div className="flex justify-between items-center h-full">
+                <div className="hidden print:block fixed top-0 left-0 right-0 h-[30mm] px-[20mm] py-8 bg-white z-[100]">
+                    <div className="flex justify-between items-center h-full border-b border-slate-200 pb-2">
                         <div className="flex items-center gap-2">
                             <span className="text-xl font-extrabold text-blue-800">T&S</span>
                             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Treinamentos</span>
@@ -53,7 +53,7 @@ function ApostilaContent() {
                 </div>
 
                 {/* ────── CAPA ────── */}
-                <section className="min-h-screen sm:min-h-[297mm] flex flex-col items-center justify-center text-center border-[10px] sm:border-[20px] border-blue-900/5 p-6 sm:p-12 relative overflow-hidden break-after-page print:border-none print:bg-white print:min-h-[257mm] print:pt-[20mm] print:pb-[15mm]">
+                <section className="min-h-screen sm:min-h-[297mm] flex flex-col items-center justify-center text-center border-[10px] sm:border-[20px] border-blue-900/5 p-6 sm:p-12 relative overflow-hidden break-after-page print:border-none print:bg-white print:min-h-[220mm] print:pt-0 print:pb-0">
                     <div className="absolute top-0 right-0 w-64 h-64 sm:w-96 sm:h-96 bg-blue-50/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 print:hidden" />
                     <div className="absolute bottom-0 left-0 w-64 h-64 sm:w-96 sm:h-96 bg-blue-50/50 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 print:hidden" />
 
@@ -94,7 +94,7 @@ function ApostilaContent() {
                 </section>
 
                 {/* ────── SUMÁRIO ────── */}
-                <section className="py-12 px-6 sm:py-16 sm:px-12 break-after-page print:pt-[40mm] print:px-[20mm]">
+                <section className="py-12 px-6 sm:py-16 sm:px-12 print:px-[20mm] print:py-8">
                     <h2 className="text-2xl sm:text-3xl font-bold text-blue-900 mb-8 sm:mb-12 flex items-center gap-3">
                         Sumário 📚
                     </h2>
@@ -120,7 +120,7 @@ function ApostilaContent() {
                 </section>
 
                 {/* ────── MÓDULO 1 ────── */}
-                <article className="py-12 px-6 sm:py-16 sm:px-12 break-after-page print:pt-[40mm] print:px-[20mm]">
+                <article className="py-12 px-6 sm:py-16 sm:px-12 print:px-[20mm] print:py-8">
                     <div className="text-blue-700 font-bold uppercase tracking-widest text-xs sm:text-sm mb-4">Módulo 01</div>
                     <h2 className="text-2xl sm:text-4xl font-extrabold text-blue-900 mb-8 border-b-4 border-blue-100 pb-4">
                         Fundamentos do eSocial na SST
@@ -175,7 +175,7 @@ function ApostilaContent() {
                 </article>
 
                 {/* ────── MÓDULO 2 ────── */}
-                <article className="py-12 px-6 sm:py-16 sm:px-12 break-after-page print:pt-[40mm] print:px-[20mm]">
+                <article className="py-12 px-6 sm:py-16 sm:px-12 print:px-[20mm] print:py-8">
                     <div className="text-rose-600 font-bold uppercase tracking-widest text-xs sm:text-sm mb-4">Módulo 02</div>
                     <h2 className="text-2xl sm:text-4xl font-extrabold text-blue-900 mb-8 border-b-4 border-rose-100 pb-4">
                         S-2210 | Comunicação de Acidente de Trabalho
@@ -253,7 +253,7 @@ function ApostilaContent() {
                 </article>
 
                 {/* ────── MÓDULO 3 ────── */}
-                <article className="py-12 px-6 sm:py-16 sm:px-12 break-after-page print:pt-[40mm] print:px-[20mm]">
+                <article className="py-12 px-6 sm:py-16 sm:px-12 print:px-[20mm] print:py-8">
                     <div className="text-teal-600 font-bold uppercase tracking-widest text-xs sm:text-sm mb-4">Módulo 03</div>
                     <h2 className="text-2xl sm:text-4xl font-extrabold text-blue-900 mb-8 border-b-4 border-teal-100 pb-4">
                         S-2220 | Monitoramento da Saúde (ASO)
@@ -315,7 +315,7 @@ function ApostilaContent() {
                 </article>
 
                 {/* ────── MÓDULO 4 ────── */}
-                <article className="py-12 px-6 sm:py-16 sm:px-12 break-after-page print:pt-[40mm] print:px-[20mm]">
+                <article className="py-12 px-6 sm:py-16 sm:px-12 print:px-[20mm] print:py-8">
                     <div className="text-amber-600 font-bold uppercase tracking-widest text-xs sm:text-sm mb-4">Módulo 04</div>
                     <h2 className="text-2xl sm:text-4xl font-extrabold text-blue-900 mb-8 border-b-4 border-amber-100 pb-4">
                         S-2240 | Condições Ambientais e Agentes Nocivos
@@ -372,7 +372,7 @@ function ApostilaContent() {
                 </article>
 
                 {/* ────── CONCLUSÃO ────── */}
-                <article className="py-12 px-6 sm:py-16 sm:px-12 break-after-page">
+                <article className="py-12 px-6 sm:py-16 sm:px-12 print:px-[20mm] print:py-8">
                     <div className="text-indigo-600 font-bold uppercase tracking-widest text-xs sm:text-sm mb-4">Módulo Final</div>
                     <h2 className="text-2xl sm:text-4xl font-extrabold text-blue-900 mb-8 border-b-4 border-indigo-100 pb-4 text-center font-display">
                         Checklist Estratégico SST
@@ -448,7 +448,7 @@ function ApostilaContent() {
                 @media print {
                     @page {
                         size: A4;
-                        margin: 0;
+                        margin: 30mm 0 20mm 0;
                     }
                     body {
                         margin: 0;
@@ -456,12 +456,19 @@ function ApostilaContent() {
                         -webkit-print-color-adjust: exact;
                         print-color-adjust: exact;
                     }
-                    .break-after-page {
-                        page-break-after: always;
-                    }
+                    .print-hidden { display: none !important; }
+                    .avoid-break-inside { break-inside: avoid; }
+                    .avoid-break-after { break-after: avoid; }
+                    .break-after-page { page-break-after: always; }
                 }
                 .break-after-page {
                     break-after: page;
+                }
+                .avoid-break-inside {
+                    break-inside: avoid;
+                }
+                .avoid-break-after {
+                    break-after: avoid;
                 }
                 @keyframes float {
                     0% { transform: translateY(0px); }
