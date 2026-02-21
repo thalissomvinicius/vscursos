@@ -113,19 +113,59 @@ async function upsertPurchase(params: {
         paid: params.paid,
     }
 
-    const firstTry = await params.supabase
+    const { data: existingByUser, error: findByUserError } = await params.supabase
         .from('purchases')
-        .upsert(payload, { onConflict: 'user_id' })
+        .select('user_id, email')
+        .eq('user_id', params.userId)
+        .limit(1)
 
-    if (!firstTry.error) return { ok: true }
+    if (findByUserError) {
+        return { ok: false, error: findByUserError.message || 'Erro ao consultar acesso' }
+    }
 
-    const secondTry = await params.supabase
+    if (existingByUser && existingByUser.length > 0) {
+        const { error: updateError } = await params.supabase
+            .from('purchases')
+            .update(payload)
+            .eq('user_id', params.userId)
+        if (updateError) {
+            return { ok: false, error: updateError.message || 'Erro ao atualizar acesso' }
+        }
+        return { ok: true }
+    }
+
+    if (params.email) {
+        const { data: existingByEmail, error: findByEmailError } = await params.supabase
+            .from('purchases')
+            .select('user_id, email')
+            .eq('email', params.email)
+            .limit(1)
+
+        if (findByEmailError) {
+            return { ok: false, error: findByEmailError.message || 'Erro ao consultar acesso' }
+        }
+
+        if (existingByEmail && existingByEmail.length > 0) {
+            const { error: updateByEmailError } = await params.supabase
+                .from('purchases')
+                .update(payload)
+                .eq('email', params.email)
+            if (updateByEmailError) {
+                return { ok: false, error: updateByEmailError.message || 'Erro ao atualizar acesso' }
+            }
+            return { ok: true }
+        }
+    }
+
+    const { error: insertError } = await params.supabase
         .from('purchases')
-        .upsert(payload, { onConflict: 'email' })
+        .insert(payload)
 
-    if (!secondTry.error) return { ok: true }
+    if (insertError) {
+        return { ok: false, error: insertError.message || 'Erro ao liberar acesso' }
+    }
 
-    return { ok: false, error: secondTry.error?.message || firstTry.error?.message || 'Erro ao liberar acesso' }
+    return { ok: true }
 }
 
 async function sendWelcomeEmail(params: {
@@ -339,12 +379,22 @@ export async function PATCH(req: NextRequest) {
                 return NextResponse.json({ error: purchaseResult.error || 'Erro ao liberar acesso' }, { status: 500 })
             }
         } else {
-            const { error: revokeError } = await supabase
+            const { data: revokedByUser, error: revokeError } = await supabase
                 .from('purchases')
                 .update({ paid: false })
                 .eq('user_id', userId)
+                .select('user_id')
             if (revokeError) {
                 return NextResponse.json({ error: 'Erro ao revogar acesso' }, { status: 500 })
+            }
+            if ((!revokedByUser || revokedByUser.length === 0) && email) {
+                const { error: revokeByEmailError } = await supabase
+                    .from('purchases')
+                    .update({ paid: false })
+                    .eq('email', email)
+                if (revokeByEmailError) {
+                    return NextResponse.json({ error: 'Erro ao revogar acesso' }, { status: 500 })
+                }
             }
         }
 
