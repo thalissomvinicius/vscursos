@@ -67,6 +67,10 @@ export default function DashboardPage() {
     const [completedModules, setCompletedModules] = useState<string[]>([])
     const [loading, setLoading] = useState(true)
     const [isDownloadingHandout, setIsDownloadingHandout] = useState(false)
+    const [profileName, setProfileName] = useState('')
+    const [profileSaving, setProfileSaving] = useState(false)
+    const [profileMessage, setProfileMessage] = useState('')
+    const [profileError, setProfileError] = useState('')
 
     const completedSet = new Set(completedModules)
     const allModulesCompleted = CORE_MODULE_SLUGS.every((slug) => completedSet.has(slug))
@@ -84,6 +88,7 @@ export default function DashboardPage() {
             }
 
             setUser({ id: authUser.id, email: authUser.email || '' })
+            setProfileName(authUser.user_metadata?.name || authUser.user_metadata?.full_name || '')
 
             // Load progress
             const { data: progress } = await supabase
@@ -104,6 +109,38 @@ export default function DashboardPage() {
     async function handleLogout() {
         await supabase.auth.signOut()
         router.push('/')
+    }
+
+    async function handleSaveProfile(e: React.FormEvent) {
+        e.preventDefault()
+        if (!user || profileSaving) return
+        const trimmed = profileName.trim()
+        if (!trimmed) {
+            setProfileError('Informe seu nome completo.')
+            setProfileMessage('')
+            return
+        }
+        setProfileSaving(true)
+        setProfileError('')
+        setProfileMessage('')
+        try {
+            const { error } = await supabase.auth.updateUser({
+                data: { name: trimmed },
+            })
+            if (error) {
+                setProfileError('Não foi possível salvar. Tente novamente.')
+            } else {
+                await supabase
+                    .from('certificates')
+                    .update({ user_name: trimmed })
+                    .eq('user_id', user.id)
+                setProfileMessage('Nome atualizado com sucesso.')
+            }
+        } catch {
+            setProfileError('Erro ao salvar. Tente novamente.')
+        } finally {
+            setProfileSaving(false)
+        }
     }
 
     function handleDownloadHandout() {
@@ -236,6 +273,43 @@ export default function DashboardPage() {
                     <div className="grid lg:grid-cols-3 gap-8">
                         {/* Sidebar */}
                         <div className="lg:col-span-1 space-y-6">
+                            <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
+                                <div className="flex items-center gap-3 mb-4">
+                                    <div className="w-10 h-10 bg-blue-50 text-blue-700 rounded-xl flex items-center justify-center text-xl">
+                                        👤
+                                    </div>
+                                    <div>
+                                        <h3 className="font-bold text-slate-800">Seu cadastro</h3>
+                                        <p className="text-xs text-slate-400">Atualize o nome do certificado</p>
+                                    </div>
+                                </div>
+                                <form onSubmit={handleSaveProfile} className="space-y-3">
+                                    <input
+                                        value={profileName}
+                                        onChange={(e) => setProfileName(e.target.value)}
+                                        placeholder="Seu nome completo"
+                                        className="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-700 font-semibold placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    />
+                                    <button
+                                        type="submit"
+                                        disabled={profileSaving}
+                                        className="w-full bg-blue-700 hover:bg-blue-800 text-white text-sm font-bold py-3 rounded-xl transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                                    >
+                                        {profileSaving ? 'Salvando...' : 'Salvar nome'}
+                                    </button>
+                                </form>
+                                {profileError && (
+                                    <div className="mt-3 text-xs text-red-600 bg-red-50 border border-red-100 rounded-lg px-3 py-2">
+                                        {profileError}
+                                    </div>
+                                )}
+                                {profileMessage && (
+                                    <div className="mt-3 text-xs text-green-700 bg-green-50 border border-green-100 rounded-lg px-3 py-2">
+                                        {profileMessage}
+                                    </div>
+                                )}
+                            </div>
+
                             {/* Progress */}
                             {user && <ProgressBar userId={user.id} />}
 
