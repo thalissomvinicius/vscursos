@@ -110,7 +110,13 @@ export default function DashboardPage() {
         if (isDownloadingHandout) return
         setIsDownloadingHandout(true)
         const iframe = document.createElement('iframe')
-        iframe.style.display = 'none'
+        iframe.style.position = 'fixed'
+        iframe.style.width = '1200px'
+        iframe.style.height = '1600px'
+        iframe.style.left = '-9999px'
+        iframe.style.top = '0'
+        iframe.style.opacity = '0'
+        iframe.style.pointerEvents = 'none'
         iframe.src = '/apostila'
         document.body.appendChild(iframe)
         window.setTimeout(() => {
