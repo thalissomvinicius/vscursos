@@ -65,6 +65,23 @@ export async function POST(req: NextRequest) {
 
         let code = existing?.code
 
+        // Migração automática: Se o código for antigo (TES-), atualiza para VS-
+        if (code && code.startsWith('TES-')) {
+            const newCode = code.replace('TES-', 'VS-')
+
+            const { error: updateError } = await supabaseAdmin
+                .from('certificates')
+                .update({
+                    code: newCode,
+                    user_name: userName // Atualiza o nome também caso tenha mudado
+                })
+                .eq('user_id', userId)
+
+            if (!updateError) {
+                code = newCode
+            }
+        }
+
         if (!code) {
             // Generate unique validation code
             code = `VS-${Date.now()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`
