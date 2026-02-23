@@ -193,8 +193,8 @@ function ApostilaContent() {
                 <div className="print-only fixed top-0 left-0 right-0 h-[30mm] px-[20mm] py-8 bg-white z-[100] pointer-events-none">
                     <div className="flex justify-between items-center h-full border-b border-slate-200 pb-2">
                         <div className="flex items-center gap-2">
-                            <span className="text-xl font-extrabold text-blue-800">T&S</span>
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Treinamentos</span>
+                            <span className="text-xl font-extrabold text-blue-800">TeS</span>
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Cursos</span>
                         </div>
                         <div className="text-[10px] font-bold text-slate-400 text-right uppercase tracking-widest">
                             Apostila Técnica — eSocial SST
@@ -205,7 +205,7 @@ function ApostilaContent() {
                 {/* ────── PRINT FOOTER (Only visible on print) ────── */}
                 <div className="print-only fixed bottom-0 left-0 right-0 h-[15mm] border-t border-slate-100 px-[20mm] py-4 bg-white z-[100] text-center pointer-events-none">
                     <div className="text-[8px] font-bold text-slate-300 uppercase tracking-widest">
-                        © T&S CURSOS • DOCUMENTO PARA USO DIDÁTICO • WWW.TES-TREINAMENTOS.VERCEL.APP
+                        © TeS CURSOS • DOCUMENTO PARA USO DIDÁTICO • WWW.TES-CURSOS.VERCEL.APP
                     </div>
                 </div>
 
@@ -218,11 +218,11 @@ function ApostilaContent() {
                         <div className="flex items-center justify-center gap-3 mb-16">
                             <span className="text-6xl font-extrabold tracking-tighter">
                                 <span className="text-blue-700">T</span>
-                                <span className="text-slate-300 mx-px">&</span>
+                                <span className="text-slate-300 mx-px">e</span>
                                 <span className="text-blue-700">S</span>
                             </span>
                             <div className="text-left print:hidden">
-                                <div className="text-xl font-bold text-slate-800 tracking-widest uppercase">Treinamentos</div>
+                                <div className="text-xl font-bold text-slate-800 tracking-widest uppercase">Cursos</div>
                                 <div className="h-1 w-full bg-blue-700 mt-1" />
                             </div>
                         </div>
@@ -246,7 +246,7 @@ function ApostilaContent() {
                     </div>
 
                     <div className="absolute bottom-12 text-slate-400 text-sm font-medium print:bottom-8">
-                        © {new Date().getFullYear()} T&S Cursos • Tecnologia de Ensino
+                        © {new Date().getFullYear()} TeS Cursos • Tecnologia de Ensino
                     </div>
                 </section>
 
@@ -566,7 +566,7 @@ function ApostilaContent() {
                         </p>
                         <div className="inline-flex items-center gap-4 bg-white/10 backdrop-blur-xl px-10 py-4 rounded-3xl border border-white/20">
                             <span className="text-2xl">🎓</span>
-                            <span className="font-black uppercase tracking-widest text-sm">T&S Cursos • {new Date().getFullYear()}</span>
+                            <span className="font-black uppercase tracking-widest text-sm">TeS Cursos • {new Date().getFullYear()}</span>
                         </div>
                     </div>
                 </article>

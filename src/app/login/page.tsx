@@ -55,7 +55,7 @@ export default function LoginPage() {
                 <div className="relative z-10 max-w-md text-center">
                     <div className="text-5xl font-extrabold mb-6">
                         <span className="text-white">T</span>
-                        <span className="text-blue-200">&</span>
+                        <span className="text-blue-200">e</span>
                         <span className="text-white">S</span>
                         <span className="text-blue-300 text-2xl font-semibold ml-2">Cursos</span>
                     </div>
@@ -75,7 +75,7 @@ export default function LoginPage() {
                         </div>
                         <div className="flex items-center gap-2 justify-center">
                             <span className="w-5 h-5 bg-blue-500/30 rounded-full flex items-center justify-center text-xs">✓</span>
-                            Certificado digital T&S Cursos
+                            Certificado digital TeS Cursos
                         </div>
                     </div>
                 </div>
@@ -88,7 +88,7 @@ export default function LoginPage() {
                     <div className="lg:hidden text-center mb-8">
                         <div className="text-3xl font-extrabold">
                             <span className="text-blue-700">T</span>
-                            <span className="text-slate-400">&</span>
+                            <span className="text-slate-400">e</span>
                             <span className="text-blue-700">S</span>
                             <span className="text-slate-500 text-lg font-semibold ml-1">Cursos</span>
                         </div>

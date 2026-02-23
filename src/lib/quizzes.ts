@@ -135,7 +135,7 @@ export const quizzes: Record<string, QuizQuestion[]> = {
             correct: 1,
         },
         {
-            question: 'O certificado T&S Cursos é emitido quando o aluno:',
+            question: 'O certificado TeS Cursos é emitido quando o aluno:',
             options: [
                 'Se inscreve no curso',
                 'Conclui o primeiro módulo',

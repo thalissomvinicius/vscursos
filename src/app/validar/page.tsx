@@ -66,7 +66,7 @@ function ValidarContent() {
                                 </svg>
                             </div>
                             <h1 className="text-2xl font-extrabold mb-2">Validador de Certificados</h1>
-                            <p className="text-blue-100/80 text-sm">Verifique a autenticidade dos certificados emitidos pela T&S Cursos.</p>
+                            <p className="text-blue-100/80 text-sm">Verifique a autenticidade dos certificados emitidos pela TeS Cursos.</p>
                         </div>
 
                         <div className="p-8">

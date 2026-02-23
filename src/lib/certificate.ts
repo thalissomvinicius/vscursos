@@ -57,7 +57,7 @@ export async function generateCertificatePDF(props: CertificateProps): Promise<A
     doc.setTextColor(Navy.r, Navy.g, Navy.b)
     doc.text('T', 35, 25)
     doc.setTextColor(Gold.r, Gold.g, Gold.b)
-    doc.text('&', 39, 25)
+    doc.text('e', 39, 25)
     doc.setTextColor(Navy.r, Navy.g, Navy.b)
     doc.text('S', 43, 25)
     doc.setFontSize(10)
@@ -145,7 +145,7 @@ export async function generateCertificatePDF(props: CertificateProps): Promise<A
     doc.setFontSize(8)
     doc.text('GARANTIDA', sealX, sealY + 1.5, { align: 'center' })
     doc.setFontSize(6)
-    doc.text('T&S CURSOS', sealX, sealY + 5.5, { align: 'center' })
+    doc.text('TeS CURSOS', sealX, sealY + 5.5, { align: 'center' })
 
     // Ribbon below seal
     doc.setFillColor(Gold.r, Gold.g, Gold.b)

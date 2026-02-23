@@ -1,7 +1,7 @@
 'use client'
 
 const WHATSAPP_NUMBER = '5591992770425'
-const WHATSAPP_MESSAGE = encodeURIComponent('Olá! Tenho interesse no curso eSocial na Prática — SST da T&S Cursos.')
+const WHATSAPP_MESSAGE = encodeURIComponent('Olá! Tenho interesse no curso eSocial na Prática — SST da TeS Cursos.')
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MESSAGE}`
 
 export default function WhatsAppButton() {

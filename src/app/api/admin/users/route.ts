@@ -34,7 +34,7 @@ function buildAdminWelcomeEmailHtml(params: {
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Acesso Administrativo - T&S Cursos</title>
+            <title>Acesso Administrativo - TeS Cursos</title>
             <style>
                 @media only screen and (max-width: 600px) {
                     .container { padding: 10px !important; }
@@ -53,7 +53,7 @@ function buildAdminWelcomeEmailHtml(params: {
                     <!-- Decorative Circle -->
                     <div style="position:absolute;top:-50px;left:-50px;width:150px;height:150px;background:rgba(255,255,255,0.05);border-radius:50%;"></div>
                     
-                    <div style="font-size:24px;font-weight:800;letter-spacing:0.05em;margin-bottom:8px;">T&amp;S CURSOS</div>
+                    <div style="font-size:24px;font-weight:800;letter-spacing:0.05em;margin-bottom:8px;">TES CURSOS</div>
                     <div style="font-size:12px;color:#fef3c7;font-weight:600;text-transform:uppercase;letter-spacing:0.15em;background:rgba(0,0,0,0.2);padding:4px 12px;border-radius:99px;display:inline-block;">Acesso Administrativo</div>
                 </div>
 
@@ -97,7 +97,7 @@ function buildAdminWelcomeEmailHtml(params: {
 
                 <!-- Footer -->
                 <div style="text-align:center;margin-top:30px;color:#94a3b8;font-size:12px;">
-                    <p style="margin:0;">© ${new Date().getFullYear()} T&S Cursos. Uso interno e confidencial.</p>
+                    <p style="margin:0;">© ${new Date().getFullYear()} TeS Cursos. Uso interno e confidencial.</p>
                 </div>
             </div>
         </body>
@@ -147,7 +147,7 @@ function buildWelcomeEmailHtml(params: {
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Bem-vindo à T&S Cursos</title>
+            <title>Bem-vindo à TeS Cursos</title>
             <style>
                 @media only screen and (max-width: 600px) {
                     .container { padding: 10px !important; }
@@ -166,7 +166,7 @@ function buildWelcomeEmailHtml(params: {
                     <!-- Decorative Circle -->
                     <div style="position:absolute;top:-50px;left:-50px;width:150px;height:150px;background:rgba(255,255,255,0.05);border-radius:50%;"></div>
                     
-                    <div style="font-size:24px;font-weight:800;letter-spacing:0.05em;margin-bottom:8px;">T&amp;S CURSOS</div>
+                    <div style="font-size:24px;font-weight:800;letter-spacing:0.05em;margin-bottom:8px;">TES CURSOS</div>
                     <div style="font-size:14px;color:#94a3b8;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;">eSocial na Prática — SST</div>
                     
                     <!-- Characters / Avatars -->
@@ -229,7 +229,7 @@ function buildWelcomeEmailHtml(params: {
                 <!-- Footer -->
                 <div style="text-align:center;margin-top:30px;color:#94a3b8;font-size:12px;">
                     <p style="margin:0 0 8px;">Dúvidas? Responda a este e-mail.</p>
-                    <p style="margin:0;">© ${new Date().getFullYear()} T&S Cursos. Todos os direitos reservados.</p>
+                    <p style="margin:0;">© ${new Date().getFullYear()} TeS Cursos. Todos os direitos reservados.</p>
                 </div>
             </div>
         </body>
@@ -371,8 +371,8 @@ async function sendWelcomeEmail(params: {
 
     try {
         const subject = params.isAdminUser
-            ? 'Acesso Administrativo - T&S Cursos'
-            : 'Bem-vindo à T&S Cursos — Dados de acesso'
+            ? 'Acesso Administrativo - TeS Cursos'
+            : 'Bem-vindo à TeS Cursos — Dados de acesso'
 
         const textContent = params.isAdminUser
             ? buildAdminWelcomeEmailText({
@@ -405,7 +405,7 @@ async function sendWelcomeEmail(params: {
             })
 
         await transporter.sendMail({
-            from: `T&S Cursos <${fromAddress}>`,
+            from: `TeS Cursos <${fromAddress}>`,
             to: params.to,
             replyTo: params.adminEmail,
             subject,

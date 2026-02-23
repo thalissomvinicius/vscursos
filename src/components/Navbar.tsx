@@ -41,10 +41,10 @@ export default function Navbar({ isLoggedIn: initialIsLoggedIn = false }: { isLo
                         <div className="flex items-center gap-1.5">
                             <span className="text-2xl font-extrabold tracking-tighter flex items-center">
                                 <span className="text-blue-700">T</span>
-                                <span className="text-slate-300 mx-px">&</span>
+                                <span className="text-slate-300 mx-px">e</span>
                                 <span className="text-blue-700">S</span>
                             </span>
-                            <span className="text-xs font-bold text-slate-500 uppercase tracking-widest hidden sm:block mt-1">Treinamentos</span>
+                            <span className="text-xs font-bold text-slate-500 uppercase tracking-widest hidden sm:block mt-1">Cursos</span>
                         </div>
                         {/* Animated Underline */}
                         <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-700 to-indigo-600 transition-all duration-300 group-hover:w-full" />

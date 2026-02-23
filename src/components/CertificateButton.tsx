@@ -17,7 +17,7 @@ export default function CertificateButton({ allCompleted }: CertificateButtonPro
                     🎓
                 </span>
                 <h3 className={`font-bold text-base mb-1 ${allCompleted ? 'text-amber-800' : 'text-slate-400'}`}>
-                    Certificado T&S Cursos
+                    Certificado TeS Cursos
                 </h3>
                 <p className={`text-xs leading-relaxed mb-4 ${allCompleted ? 'text-amber-600' : 'text-slate-400'}`}>
                     {allCompleted

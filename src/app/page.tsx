@@ -5,7 +5,7 @@ import Navbar from '@/components/Navbar'
 import { supabase } from '@/lib/supabase'
 
 const WHATSAPP_NUMBER = '5591992770425'
-const WHATSAPP_MESSAGE = encodeURIComponent('Olá! Tenho interesse no curso eSocial na Prática — SST da T&S Cursos. Gostaria de mais informações sobre como adquirir.')
+const WHATSAPP_MESSAGE = encodeURIComponent('Olá! Tenho interesse no curso eSocial na Prática — SST da TeS Cursos. Gostaria de mais informações sobre como adquirir.')
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MESSAGE}`
 
 const MODULES = [
@@ -32,7 +32,7 @@ const MODULES = [
   {
     icon: '🎓',
     title: 'Considerações Finais',
-    desc: 'Síntese dos eventos, checklist prático e emissão do certificado T&S Cursos.',
+    desc: 'Síntese dos eventos, checklist prático e emissão do certificado TeS Cursos.',
   },
 ]
 
@@ -47,7 +47,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'O certificado é reconhecido?',
-    a: 'O certificado T&S Cursos é um documento digital com código de validação único, emitido após a conclusão de todos os módulos e quizzes. É um certificado de curso livre.',
+    a: 'O certificado TeS Cursos é um documento digital com código de validação único, emitido após a conclusão de todos os módulos e quizzes. É um certificado de curso livre.',
   },
   {
     q: 'Por quanto tempo tenho acesso?',
@@ -256,12 +256,12 @@ export default function LandingPage() {
 
             <span className="text-6xl mb-6 block animate-float">🎓</span>
             <h2 className="text-3xl sm:text-4xl font-extrabold mb-4 relative z-10">
-              Certificado Digital T&S Cursos
+              Certificado Digital TeS Cursos
             </h2>
             <p className="text-blue-200 text-lg max-w-xl mx-auto mb-8 leading-relaxed relative z-10">
               Ao concluir todos os módulos e quizzes, você recebe um{' '}
               <strong className="text-white">certificado digital em PDF</strong> com código de
-              validação único, emitido pela T&S Cursos.
+              validação único, emitido pela TeS Cursos.
             </p>
 
             <div className="grid sm:grid-cols-3 gap-4 max-w-lg mx-auto relative z-10">
@@ -372,7 +372,7 @@ export default function LandingPage() {
                 {[
                   '5 módulos completos',
                   'Quizzes de fixação por módulo',
-                  'Certificado digital T&S Cursos',
+                  'Certificado digital TeS Cursos',
                   'Código de validação único',
                   'Acesso vitalício ao conteúdo',
                   'Atualizações futuras inclusas',
@@ -484,15 +484,15 @@ export default function LandingPage() {
         <div className="max-w-4xl mx-auto">
           <div className="text-2xl font-extrabold mb-2">
             <span className="text-blue-500">T</span>
-            <span className="text-slate-400 text-sm font-semibold">&</span>
+            <span className="text-slate-400 text-sm font-semibold">e</span>
             <span className="text-blue-500">S</span>
             <span className="text-slate-400 text-sm font-semibold ml-1">Cursos</span>
           </div>
           <p className="text-slate-500 text-sm">
-            © {new Date().getFullYear()} T&S Cursos. Todos os direitos reservados.
+            © {new Date().getFullYear()} TeS Cursos. Todos os direitos reservados.
           </p>
           <p className="text-slate-600 text-xs mt-2">
-            Curso livre. Certificado de conclusão emitido pela T&S Cursos.
+            Curso livre. Certificado de conclusão emitido pela TeS Cursos.
           </p>
         </div>
       </footer>
