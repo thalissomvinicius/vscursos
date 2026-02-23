@@ -47,10 +47,10 @@ O sistema de certificados foi projetado para ser à prova de fraudes:
 
 ```bash
 # Clone o repositório
-git clone https://github.com/thalissomvinicius/tes-treinamentos.git
+git clone https://github.com/thalissomvinicius/vscursos.git
 
 # Entre na pasta
-cd tes-treinamentos
+cd vscursos
 
 # Instale as dependências
 npm install
