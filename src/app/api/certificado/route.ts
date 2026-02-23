@@ -90,7 +90,7 @@ export async function POST(req: NextRequest) {
         const pdfBuffer = await generateCertificatePDF({
             userName,
             courseName: 'eSocial na Prática — SST',
-            issuedBy: 'VS Cursos',
+            issuedBy: 'VS Capacitação Profissional',
             code,
             date: new Date().toLocaleDateString('pt-BR', {
                 day: '2-digit',
