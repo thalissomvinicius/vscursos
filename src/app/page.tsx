@@ -47,7 +47,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'O certificado é reconhecido?',
-    a: 'O certificado TeS Cursos é um documento digital com código de validação único, emitido após a conclusão de todos os módulos e quizzes. É um certificado de curso livre.',
+    a: 'O certificado VS Cursos é um documento digital com código de validação único, emitido após a conclusão de todos os módulos e quizzes. É um certificado de curso livre.',
   },
   {
     q: 'Por quanto tempo tenho acesso?',
@@ -256,12 +256,12 @@ export default function LandingPage() {
 
             <span className="text-6xl mb-6 block animate-float">🎓</span>
             <h2 className="text-3xl sm:text-4xl font-extrabold mb-4 relative z-10">
-              Certificado Digital TeS Cursos
+              Certificado Digital VS Cursos
             </h2>
             <p className="text-blue-200 text-lg max-w-xl mx-auto mb-8 leading-relaxed relative z-10">
               Ao concluir todos os módulos e quizzes, você recebe um{' '}
               <strong className="text-white">certificado digital em PDF</strong> com código de
-              validação único, emitido pela TeS Cursos.
+              validação único, emitido pela VS Cursos.
             </p>
 
             <div className="grid sm:grid-cols-3 gap-4 max-w-lg mx-auto relative z-10">
@@ -302,7 +302,7 @@ export default function LandingPage() {
                   <input
                     value={verifyCode}
                     onChange={(e) => setVerifyCode(e.target.value)}
-                    placeholder="Ex: TES-1716234567890-ABCD12"
+                    placeholder="Ex: VS-1716234567890-ABCD12"
                     className="flex-1 rounded-xl border border-slate-200 px-4 py-3 text-slate-700 font-semibold placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                   <button
@@ -372,7 +372,7 @@ export default function LandingPage() {
                 {[
                   '5 módulos completos',
                   'Quizzes de fixação por módulo',
-                  'Certificado digital TeS Cursos',
+                  'Certificado digital VS Cursos',
                   'Código de validação único',
                   'Acesso vitalício ao conteúdo',
                   'Atualizações futuras inclusas',
@@ -483,16 +483,15 @@ export default function LandingPage() {
       <footer className="py-10 px-4 bg-slate-900 text-center">
         <div className="max-w-4xl mx-auto">
           <div className="text-2xl font-extrabold mb-2">
-            <span className="text-blue-500">T</span>
-            <span className="text-slate-400 text-sm font-semibold">e</span>
+            <span className="text-blue-500">V</span>
             <span className="text-blue-500">S</span>
             <span className="text-slate-400 text-sm font-semibold ml-1">Cursos</span>
           </div>
           <p className="text-slate-500 text-sm">
-            © {new Date().getFullYear()} TeS Cursos. Todos os direitos reservados.
+            © {new Date().getFullYear()} VS Cursos. Todos os direitos reservados.
           </p>
           <p className="text-slate-600 text-xs mt-2">
-            Curso livre. Certificado de conclusão emitido pela TeS Cursos.
+            Curso livre. Certificado de conclusão emitido pela VS Cursos.
           </p>
         </div>
       </footer>

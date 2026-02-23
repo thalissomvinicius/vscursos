@@ -55,13 +55,12 @@ export async function generateCertificatePDF(props: CertificateProps): Promise<A
     doc.setFont('helvetica', 'bold')
     doc.setFontSize(14)
     doc.setTextColor(Navy.r, Navy.g, Navy.b)
-    doc.text('T', 35, 25)
+    doc.text('V', 35, 25)
     doc.setTextColor(Gold.r, Gold.g, Gold.b)
-    doc.text('e', 39, 25)
+    doc.text('S', 39, 25)
     doc.setTextColor(Navy.r, Navy.g, Navy.b)
-    doc.text('S', 43, 25)
     doc.setFontSize(10)
-    doc.text('CURSOS', 49, 25)
+    doc.text('CURSOS', 45, 25)
 
     // ──────────────────────────────────────
     //  TOP ACCENT
@@ -145,7 +144,7 @@ export async function generateCertificatePDF(props: CertificateProps): Promise<A
     doc.setFontSize(8)
     doc.text('GARANTIDA', sealX, sealY + 1.5, { align: 'center' })
     doc.setFontSize(6)
-    doc.text('TeS CURSOS', sealX, sealY + 5.5, { align: 'center' })
+    doc.text('VS CURSOS', sealX, sealY + 5.5, { align: 'center' })
 
     // Ribbon below seal
     doc.setFillColor(Gold.r, Gold.g, Gold.b)
@@ -163,7 +162,7 @@ export async function generateCertificatePDF(props: CertificateProps): Promise<A
     doc.setFontSize(8)
     doc.setTextColor(150, 150, 150)
     doc.text(`Emitido por ${issuedBy}`, 40, 182)
-    doc.text('CNPJ: 42.255.656/0001-03', 40, 186)
+    doc.text('CNPJ: 60.953.721/0001-48', 40, 186)
 
     // ──────────────────────────────────────
     //  VALIDATION CODE (Minimalist Footer)

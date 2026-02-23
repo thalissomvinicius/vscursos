@@ -40,8 +40,7 @@ export default function Navbar({ isLoggedIn: initialIsLoggedIn = false }: { isLo
                     <Link href="/" className="flex items-center gap-2 group relative">
                         <div className="flex items-center gap-1.5">
                             <span className="text-2xl font-extrabold tracking-tighter flex items-center">
-                                <span className="text-blue-700">T</span>
-                                <span className="text-slate-300 mx-px">e</span>
+                                <span className="text-blue-700">V</span>
                                 <span className="text-blue-700">S</span>
                             </span>
                             <span className="text-xs font-bold text-slate-500 uppercase tracking-widest hidden sm:block mt-1">Cursos</span>

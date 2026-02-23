@@ -128,7 +128,7 @@ export default function ProgressBar({ userId }: { userId: string }) {
                             🏆 Todos os módulos concluídos!
                         </p>
                         <p className="text-emerald-100 text-xs mt-1">
-                            Seu certificado TeS Cursos está disponível
+                            Seu certificado VS Cursos está disponível
                         </p>
                     </div>
                 )}

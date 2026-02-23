@@ -44,7 +44,7 @@ const MODULES = [
     {
         slug: 'modulo-5-conclusao',
         title: 'Considerações Finais',
-        description: 'Síntese dos eventos, checklist prático e certificado TeS Cursos.',
+        description: 'Síntese dos eventos, checklist prático e certificado VS Cursos.',
         icon: '🎓',
         order: 5,
         gradient: 'from-indigo-500 to-indigo-600',

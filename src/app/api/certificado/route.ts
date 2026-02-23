@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
 
         if (!code) {
             // Generate unique validation code
-            code = `TES-${Date.now()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`
+            code = `VS-${Date.now()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`
 
             const { error: insertError } = await supabaseAdmin.from('certificates').insert({
                 user_id: userId,
@@ -90,7 +90,7 @@ export async function POST(req: NextRequest) {
         const pdfBuffer = await generateCertificatePDF({
             userName,
             courseName: 'eSocial na Prática — SST',
-            issuedBy: 'TeS Cursos',
+            issuedBy: 'VS Cursos',
             code,
             date: new Date().toLocaleDateString('pt-BR', {
                 day: '2-digit',
@@ -103,7 +103,7 @@ export async function POST(req: NextRequest) {
         return new Response(pdfBuffer, {
             headers: {
                 'Content-Type': 'application/pdf',
-                'Content-Disposition': 'attachment; filename="certificado-tes-cursos.pdf"',
+                'Content-Disposition': 'attachment; filename="certificado-vs-cursos.pdf"',
             },
         })
     } catch (error) {

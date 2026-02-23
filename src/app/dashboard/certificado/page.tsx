@@ -92,7 +92,7 @@ export default function CertificadoPage() {
                         <h1 className="text-2xl font-extrabold text-slate-800 mb-2">Seu Certificado</h1>
                         <p className="text-slate-500 text-sm mb-8">
                             Emitido por{' '}
-                            <span className="font-bold text-blue-700">TeS Cursos</span>
+                            <span className="font-bold text-blue-700">VS Cursos</span>
                         </p>
 
                         {done ? (

@@ -28,7 +28,7 @@ function SucessoContent() {
                     <p className="text-slate-500 leading-relaxed mb-6">
                         Obrigado por adquirir o curso{' '}
                         <strong className="text-slate-700">eSocial na Prática — SST</strong> da{' '}
-                        <strong className="text-blue-700">TeS Cursos</strong>!
+                        <strong className="text-blue-700">VS Cursos</strong>!
                     </p>
 
                     <div className="bg-blue-50 rounded-2xl p-5 mb-6 text-left">

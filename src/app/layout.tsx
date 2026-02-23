@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "TeS Cursos | eSocial na Prática — SST",
+  title: "VS Cursos | eSocial na Prática — SST",
   description:
     "Curso completo de eSocial para Técnicos em Segurança do Trabalho. Domine os eventos S-2210, S-2220 e S-2240 com certificado digital.",
   keywords: [

@@ -217,8 +217,7 @@ function ApostilaContent() {
                     <div className="relative z-10">
                         <div className="flex items-center justify-center gap-3 mb-16">
                             <span className="text-6xl font-extrabold tracking-tighter">
-                                <span className="text-blue-700">T</span>
-                                <span className="text-slate-300 mx-px">e</span>
+                                <span className="text-blue-700">V</span>
                                 <span className="text-blue-700">S</span>
                             </span>
                             <div className="text-left print:hidden">
@@ -246,7 +245,7 @@ function ApostilaContent() {
                     </div>
 
                     <div className="absolute bottom-12 text-slate-400 text-sm font-medium print:bottom-8">
-                        © {new Date().getFullYear()} TeS Cursos • Tecnologia de Ensino
+                        © {new Date().getFullYear()} VS Cursos • VS Capacitação Profissional
                     </div>
                 </section>
 
@@ -566,7 +565,7 @@ function ApostilaContent() {
                         </p>
                         <div className="inline-flex items-center gap-4 bg-white/10 backdrop-blur-xl px-10 py-4 rounded-3xl border border-white/20">
                             <span className="text-2xl">🎓</span>
-                            <span className="font-black uppercase tracking-widest text-sm">TeS Cursos • {new Date().getFullYear()}</span>
+                            <span className="font-black uppercase tracking-widest text-sm">VS Cursos • {new Date().getFullYear()}</span>
                         </div>
                     </div>
                 </article>
