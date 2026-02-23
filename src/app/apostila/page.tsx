@@ -457,7 +457,7 @@ function ApostilaContent() {
                         <div className="flex justify-between items-center gap-10">
                             <div>
                                 <h4 className="text-2xl font-black text-teal-400 mb-3 uppercase tracking-tighter italic">Prazo S-2220</h4>
-                                <p className="text-slate-400 text-sm font-medium">Até o dia 15 do mês subsequente ao da realização do exame ou antes do envio da folha de pagamento da competência, o que ocorrer primeiro.</p>
+                                <p className="text-slate-400 text-sm font-medium">Até o dia 15 do mês subsequente ou antes do fechamento da folha.</p>
                             </div>
                             <div className="text-6xl font-black text-white/5 select-none">15</div>
                         </div>
