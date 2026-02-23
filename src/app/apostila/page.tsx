@@ -393,7 +393,7 @@ function ApostilaContent() {
                                 <div className="p-6 space-y-4">
                                     <div className="flex justify-between items-center pb-4 border-b border-slate-100 text-rose-900">
                                         <span className="font-bold">Com Óbito</span>
-                                        <span className="bg-rose-100 px-3 py-1 rounded-full text-[10px] font-black uppercase">Imediato (24h)</span>
+                                        <span className="bg-rose-100 px-3 py-1 rounded-full text-[10px] font-black uppercase">Envio Imediato</span>
                                     </div>
                                     <div className="flex justify-between items-center text-slate-700">
                                         <span className="font-bold">Sem Óbito</span>
@@ -433,7 +433,7 @@ function ApostilaContent() {
                                 <tr><td className="p-4 font-bold text-teal-900">Admissional</td><td className="p-4 text-slate-500">Antes do início das atividades laborais.</td></tr>
                                 <tr className="bg-teal-50/30"><td className="p-4 font-bold text-teal-900">Periódico</td><td className="p-4 text-slate-500">Em intervalos regulares.</td></tr>
                                 <tr><td className="p-4 font-bold text-teal-900">Demissional</td><td className="p-4 text-slate-500">Até a data do desligamento.</td></tr>
-                                <tr className="bg-teal-50/30"><td className="p-4 font-bold text-teal-900">Retorno Trabalho</td><td className="p-4 text-slate-500">Após afastamento &gt; 30 dias.</td></tr>
+                                <tr className="bg-teal-50/30"><td className="p-4 font-bold text-teal-900">Retorno Trabalho</td><td className="p-4 text-slate-500">Após afastamento &ge; 30 dias por motivo de saúde.</td></tr>
                                 <tr><td className="p-4 font-bold text-teal-900">Mudança de Risco</td><td className="p-4 text-slate-500">Sempre que houver alteração de cargo com novos riscos.</td></tr>
                             </tbody>
                         </table>
@@ -444,19 +444,12 @@ function ApostilaContent() {
                             <h3 className="text-lg sm:text-xl font-bold text-slate-800 mb-4">Informações do Médico</h3>
                             <ul className="space-y-2 text-slate-600 text-sm">
                                 <li className="flex items-start gap-2">• CRM e Nome do Médico examinador</li>
-                                <li className="flex items-start gap-2">• Nome do Médico Coordenador (PCMSO)</li>
                                 <li className="flex items-start gap-2">• Identificação completa da Clínica</li>
                             </ul>
                         </div>
                         <div className="flex-1">
                             <h3 className="text-lg sm:text-xl font-bold text-slate-800 mb-4">Exames Complementares</h3>
-                            <p className="text-xs sm:text-sm text-slate-500 italic mb-4">Devem ser informados seguindo os códigos da **Tabela 27**:</p>
-                            <div className="grid grid-cols-2 gap-2 text-[10px] font-bold">
-                                <div className="p-2 bg-slate-50 border border-slate-100">0901 — Audiometria</div>
-                                <div className="p-2 bg-slate-50 border border-slate-100">0905 — Acuidade</div>
-                                <div className="p-2 bg-slate-50 border border-slate-100">0914 — Espirometria</div>
-                                <div className="p-2 bg-slate-50 border border-slate-100">0901 — Hemograma</div>
-                            </div>
+                            <p className="text-xs sm:text-sm text-slate-500 italic mb-4">Os códigos devem ser consultados na Tabela 27 vigente no portal do eSocial.</p>
                         </div>
                     </div>
 
@@ -464,7 +457,7 @@ function ApostilaContent() {
                         <div className="flex justify-between items-center gap-10">
                             <div>
                                 <h4 className="text-2xl font-black text-teal-400 mb-3 uppercase tracking-tighter italic">Prazo S-2220</h4>
-                                <p className="text-slate-400 text-sm font-medium">O envio deve ocorrer obrigatoriamente até o <strong>dia 15 do mês subsequente</strong> à data de realização do exame médico.</p>
+                                <p className="text-slate-400 text-sm font-medium">Até o dia 15 do mês subsequente ao da realização do exame ou antes do envio da folha de pagamento da competência, o que ocorrer primeiro.</p>
                             </div>
                             <div className="text-6xl font-black text-white/5 select-none">15</div>
                         </div>
