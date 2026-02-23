@@ -261,7 +261,7 @@ export default function LandingPage() {
             <p className="text-blue-200 text-lg max-w-xl mx-auto mb-8 leading-relaxed relative z-10">
               Ao concluir todos os módulos e quizzes, você recebe um{' '}
               <strong className="text-white">certificado digital em PDF</strong> com código de
-              validação único, emitido pela VS Cursos.
+              validação único, emitido pela <strong className="text-white">VS Capacitação Profissional</strong>.
             </p>
 
             <div className="grid sm:grid-cols-3 gap-4 max-w-lg mx-auto relative z-10">

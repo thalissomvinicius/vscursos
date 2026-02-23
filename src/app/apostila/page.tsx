@@ -244,8 +244,9 @@ function ApostilaContent() {
                         </div>
                     </div>
 
-                    <div className="absolute bottom-12 text-slate-400 text-sm font-medium print:bottom-8">
-                        © {new Date().getFullYear()} VS Cursos • VS Capacitação Profissional
+                    <div className="absolute bottom-12 text-slate-400 text-sm font-medium print:bottom-8 flex flex-col items-center gap-1">
+                        <span>© {new Date().getFullYear()} VS Cursos • VS Capacitação Profissional</span>
+                        <span className="text-xs opacity-70">Desenvolvido por Vinicius Dev</span>
                     </div>
                 </section>
 
