@@ -1,9 +1,10 @@
 import { getSupabaseAdmin } from '@/lib/supabase'
 import { isAdmin } from '@/lib/admin'
+import { upsertPurchase, sendWelcomeEmail } from '@/lib/purchases'
 import { NextRequest, NextResponse } from 'next/server'
-import nodemailer from 'nodemailer'
 
-// Helper: verify admin from request
+// ─── Admin Verification Helper ─────────────────────────────────────
+
 async function verifyAdmin(req: NextRequest) {
     const email = req.headers.get('x-user-email')
     if (!email) return null
@@ -20,406 +21,8 @@ async function verifyAdmin(req: NextRequest) {
     return null
 }
 
-function buildAdminWelcomeEmailHtml(params: {
-    name: string
-    email: string
-    password: string
-    loginUrl: string
-}) {
-    const { name, email, password, loginUrl } = params
+// ─── GET — List all users with access status ───────────────────────
 
-    return `
-        <!DOCTYPE html>
-        <html lang="pt-BR">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Acesso Administrativo - VS Cursos</title>
-            <style>
-                @media only screen and (max-width: 600px) {
-                    .container { padding: 10px !important; }
-                    .content { padding: 20px 15px !important; }
-                    .header { padding: 20px 15px !important; }
-                    h1 { font-size: 18px !important; }
-                    p { font-size: 14px !important; }
-                    .btn { display: block !important; width: 100% !important; max-width: none !important; box-sizing: border-box !important; }
-                }
-            </style>
-        </head>
-        <body style="margin:0;padding:0;background-color:#f1f5f9;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;color:#0f172a;">
-            <div class="container" style="max-width:600px;margin:0 auto;padding:40px 20px;">
-                <!-- Header -->
-                <div class="header" style="background:linear-gradient(135deg, #b45309 0%, #78350f 100%);border-radius:24px 24px 0 0;padding:40px 30px;text-align:center;color:#ffffff;position:relative;overflow:hidden;">
-                    <!-- Decorative Circle -->
-                    <div style="position:absolute;top:-50px;left:-50px;width:150px;height:150px;background:rgba(255,255,255,0.05);border-radius:50%;"></div>
-                    
-                    <div style="font-size:24px;font-weight:800;letter-spacing:0.05em;margin-bottom:8px;">VS CURSOS</div>
-                    <div style="font-size:12px;color:#fef3c7;font-weight:600;text-transform:uppercase;letter-spacing:0.15em;background:rgba(0,0,0,0.2);padding:4px 12px;border-radius:99px;display:inline-block;">Acesso Administrativo</div>
-                </div>
-
-                <!-- Main Content -->
-                <div class="content" style="background:#ffffff;border-radius:0 0 24px 24px;padding:40px 30px;box-shadow:0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);">
-                    <h1 style="font-size:22px;font-weight:700;margin:0 0 16px;color:#1e293b;text-align:center;">
-                        Bem-vindo ao Time, ${name ? name : 'Admin'}!
-                    </h1>
-                    
-                    <p style="margin:0 0 24px;font-size:16px;line-height:1.6;color:#475569;text-align:center;">
-                        Sua conta de administrador foi criada com sucesso. Você agora tem acesso total ao painel de gestão da plataforma.
-                    </p>
-
-                    <!-- Credentials Box -->
-                    <div style="background:#fffbeb;border:1px solid #fcd34d;border-radius:16px;padding:24px;margin:30px 0;">
-                        <div style="text-align:center;font-size:12px;color:#92400e;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:12px;">Suas Credenciais de Admin</div>
-                        
-                        <div style="margin-bottom:12px;">
-                            <div style="font-size:13px;color:#b45309;margin-bottom:4px;">E-mail de acesso</div>
-                            <div style="font-size:16px;color:#0f172a;font-weight:600;font-family:monospace;">${email}</div>
-                        </div>
-                        
-                        <div>
-                            <div style="font-size:13px;color:#b45309;margin-bottom:4px;">Senha temporária</div>
-                            <div style="font-size:16px;color:#0f172a;font-weight:600;font-family:monospace;background:#fef3c7;padding:4px 8px;border-radius:6px;display:inline-block;">${password}</div>
-                        </div>
-                    </div>
-
-                    <!-- CTA Button -->
-                    <div style="text-align:center;margin:30px 0;">
-                        <a href="${loginUrl}" class="btn" style="display:inline-block;background:#d97706;color:#ffffff;text-decoration:none;font-weight:600;padding:16px 32px;border-radius:12px;font-size:16px;box-shadow:0 4px 6px -1px rgba(217, 119, 6, 0.2);transition:background 0.2s;">
-                            Acessar Painel Admin
-                        </a>
-                    </div>
-
-                    <!-- Security Notice -->
-                    <div style="background:#f8fafc;border-radius:12px;padding:16px;font-size:13px;color:#64748b;line-height:1.5;text-align:center;">
-                        <strong>⚠️ Importante:</strong> Por questões de segurança, recomendamos que você altere sua senha imediatamente após o primeiro acesso.
-                    </div>
-                </div>
-
-                <!-- Footer -->
-                <div style="text-align:center;margin-top:30px;color:#94a3b8;font-size:12px;">
-                    <p style="margin:0;">© ${new Date().getFullYear()} VS Cursos. Uso interno e confidencial.</p>
-                </div>
-            </div>
-        </body>
-        </html>
-    `
-}
-
-function buildAdminWelcomeEmailText(params: {
-    name: string
-    email: string
-    password: string
-    loginUrl: string
-}) {
-    const { name, email, password, loginUrl } = params
-
-    return [
-        `Bem-vindo ao Time, ${name ? name : 'Admin'}!`,
-        '',
-        'Sua conta de administrador foi criada com sucesso.',
-        'Você agora tem acesso total ao painel de gestão da plataforma.',
-        '',
-        'SUAS CREDENCIAIS:',
-        `E-mail: ${email}`,
-        `Senha: ${password}`,
-        '',
-        `Acesse o painel: ${loginUrl}`,
-        '',
-        'IMPORTANTE: Por questões de segurança, altere sua senha após o primeiro acesso.',
-    ].join('\n')
-}
-
-function buildWelcomeEmailHtml(params: {
-    name: string
-    email: string
-    password: string
-    loginUrl: string
-    grantAccess: boolean
-}) {
-    const { name, email, password, loginUrl, grantAccess } = params
-    const accessLine = grantAccess
-        ? 'Seu acesso já está liberado.'
-        : 'Seu acesso será liberado assim que o pagamento for confirmado.'
-
-    return `
-        <!DOCTYPE html>
-        <html lang="pt-BR">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Bem-vindo à VS Cursos</title>
-            <style>
-                @media only screen and (max-width: 600px) {
-                    .container { padding: 10px !important; }
-                    .content { padding: 20px 15px !important; }
-                    .header { padding: 20px 15px !important; }
-                    h1 { font-size: 18px !important; }
-                    p { font-size: 14px !important; }
-                    .btn { display: block !important; width: 100% !important; max-width: none !important; box-sizing: border-box !important; }
-                }
-            </style>
-        </head>
-        <body style="margin:0;padding:0;background-color:#e2e8f0;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;color:#0f172a;">
-            <div class="container" style="max-width:600px;margin:0 auto;padding:40px 20px;">
-                <!-- Header with Characters -->
-                <div class="header" style="background:linear-gradient(135deg, #0f172a 0%, #1e293b 100%);border-radius:24px 24px 0 0;padding:40px 30px;text-align:center;color:#ffffff;position:relative;overflow:hidden;">
-                    <!-- Decorative Circle -->
-                    <div style="position:absolute;top:-50px;left:-50px;width:150px;height:150px;background:rgba(255,255,255,0.05);border-radius:50%;"></div>
-                    
-                    <div style="font-size:24px;font-weight:800;letter-spacing:0.05em;margin-bottom:8px;">VS CURSOS</div>
-                    <div style="font-size:14px;color:#94a3b8;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;">eSocial na Prática — SST</div>
-                    
-                    <!-- Characters / Avatars -->
-                    <div style="margin-top:30px;display:flex;justify-content:center;gap:15px;">
-                        <div style="background:#3b82f6;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);border:3px solid rgba(255,255,255,0.2);">👩‍💻</div>
-                        <div style="background:#2563eb;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);border:3px solid rgba(255,255,255,0.2);">👷</div>
-                        <div style="background:#1d4ed8;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);border:3px solid rgba(255,255,255,0.2);">👨‍🏫</div>
-                    </div>
-                </div>
-
-                <!-- Main Content -->
-                <div class="content" style="background:#ffffff;border-radius:0 0 24px 24px;padding:40px 30px;box-shadow:0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);">
-                    <h1 style="font-size:22px;font-weight:700;margin:0 0 16px;color:#1e293b;text-align:center;">
-                        Bem-vindo(a)${name ? `, ${name}` : ''}!
-                    </h1>
-                    
-                    <p style="margin:0 0 24px;font-size:16px;line-height:1.6;color:#475569;text-align:center;">
-                        Seu cadastro foi realizado com sucesso. ${accessLine}
-                    </p>
-
-                    <!-- Credentials Box -->
-                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:16px;padding:24px;margin:30px 0;">
-                        <div style="text-align:center;font-size:12px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:12px;">Suas Credenciais</div>
-                        
-                        <div style="margin-bottom:12px;">
-                            <div style="font-size:13px;color:#94a3b8;margin-bottom:4px;">E-mail de acesso</div>
-                            <div style="font-size:16px;color:#0f172a;font-weight:600;font-family:monospace;">${email}</div>
-                        </div>
-                        
-                        <div>
-                            <div style="font-size:13px;color:#94a3b8;margin-bottom:4px;">Senha temporária</div>
-                            <div style="font-size:16px;color:#0f172a;font-weight:600;font-family:monospace;background:#e2e8f0;padding:4px 8px;border-radius:6px;display:inline-block;">${password}</div>
-                        </div>
-                    </div>
-
-                    <!-- CTA Button -->
-                    <div style="text-align:center;margin:30px 0;">
-                        <a href="${loginUrl}" class="btn" style="display:inline-block;background:#2563eb;color:#ffffff;text-decoration:none;font-weight:600;padding:16px 32px;border-radius:12px;font-size:16px;box-shadow:0 4px 6px -1px rgba(37, 99, 235, 0.2);transition:background 0.2s;">
-                            Acessar Plataforma
-                        </a>
-                    </div>
-
-                    <!-- Features List -->
-                    <div style="border-top:1px solid #f1f5f9;margin-top:30px;padding-top:30px;">
-                        <div style="font-size:14px;font-weight:600;color:#334155;margin-bottom:16px;text-align:center;">O que você vai encontrar:</div>
-                        <ul style="padding:0;margin:0;list-style:none;">
-                            <li style="margin-bottom:12px;display:flex;align-items:center;color:#64748b;font-size:14px;">
-                                <span style="color:#10b981;margin-right:10px;font-size:16px;">✓</span> Certificado válido em todo território nacional
-                            </li>
-                            <li style="margin-bottom:12px;display:flex;align-items:center;color:#64748b;font-size:14px;">
-                                <span style="color:#10b981;margin-right:10px;font-size:16px;">✓</span> Conteúdo atualizado com as normas vigentes
-                            </li>
-                            <li style="margin-bottom:12px;display:flex;align-items:center;color:#64748b;font-size:14px;">
-                                <span style="color:#10b981;margin-right:10px;font-size:16px;">✓</span> Suporte direto com especialistas
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Footer -->
-                <div style="text-align:center;margin-top:30px;color:#94a3b8;font-size:12px;">
-                    <p style="margin:0 0 8px;">Dúvidas? Responda a este e-mail.</p>
-                    <p style="margin:0;">© ${new Date().getFullYear()} VS Capacitação Profissional. Todos os direitos reservados.</p>
-                </div>
-            </div>
-        </body>
-        </html>
-    `
-}
-
-function buildWelcomeEmailText(params: {
-    name: string
-    email: string
-    password: string
-    loginUrl: string
-    grantAccess: boolean
-}) {
-    const { name, email, password, loginUrl, grantAccess } = params
-    const accessLine = grantAccess
-        ? 'Seu acesso já está liberado.'
-        : 'Seu acesso será liberado assim que o pagamento for confirmado.'
-
-    return [
-        `Olá${name ? `, ${name}` : ''}!`,
-        '',
-        'Seu cadastro foi criado com sucesso.',
-        accessLine,
-        '',
-        'Dados de acesso:',
-        `E-mail: ${email}`,
-        `Senha: ${password}`,
-        '',
-        `Acesse o painel: ${loginUrl}`,
-        '',
-        'Gratificações do curso:',
-        '- Certificado digital de 40 horas com código de validação',
-        '- Acesso vitalício ao conteúdo e atualizações futuras',
-        '- Quizzes de fixação por módulo',
-        '- Apostila em PDF para estudo offline',
-        '- Suporte direto pelo WhatsApp',
-        '',
-        'Recomendamos que você altere sua senha após o primeiro acesso.',
-    ].join('\n')
-}
-
-async function upsertPurchase(params: {
-    supabase: ReturnType<typeof getSupabaseAdmin>
-    userId: string
-    email: string
-    paid: boolean
-}) {
-    const payload = {
-        email: params.email,
-        user_id: params.userId,
-        stripe_session_id: `admin-${Date.now()}`,
-        stripe_customer_id: `manual-${params.userId}`,
-        paid: params.paid,
-    }
-
-    const { data: existingByUser, error: findByUserError } = await params.supabase
-        .from('purchases')
-        .select('user_id, email')
-        .eq('user_id', params.userId)
-        .limit(1)
-
-    if (findByUserError) {
-        return { ok: false, error: findByUserError.message || 'Erro ao consultar acesso' }
-    }
-
-    if (existingByUser && existingByUser.length > 0) {
-        const { error: updateError } = await params.supabase
-            .from('purchases')
-            .update(payload)
-            .eq('user_id', params.userId)
-        if (updateError) {
-            return { ok: false, error: updateError.message || 'Erro ao atualizar acesso' }
-        }
-        return { ok: true }
-    }
-
-    if (params.email) {
-        const { data: existingByEmail, error: findByEmailError } = await params.supabase
-            .from('purchases')
-            .select('user_id, email')
-            .eq('email', params.email)
-            .limit(1)
-
-        if (findByEmailError) {
-            return { ok: false, error: findByEmailError.message || 'Erro ao consultar acesso' }
-        }
-
-        if (existingByEmail && existingByEmail.length > 0) {
-            const { error: updateByEmailError } = await params.supabase
-                .from('purchases')
-                .update(payload)
-                .eq('email', params.email)
-            if (updateByEmailError) {
-                return { ok: false, error: updateByEmailError.message || 'Erro ao atualizar acesso' }
-            }
-            return { ok: true }
-        }
-    }
-
-    const { error: insertError } = await params.supabase
-        .from('purchases')
-        .insert(payload)
-
-    if (insertError) {
-        return { ok: false, error: insertError.message || 'Erro ao liberar acesso' }
-    }
-
-    return { ok: true }
-}
-
-async function sendWelcomeEmail(params: {
-    to: string
-    name: string
-    password: string
-    grantAccess: boolean
-    adminEmail: string
-    origin: string
-    isAdminUser?: boolean
-}) {
-    const host = process.env.SMTP_HOST
-    const port = Number(process.env.SMTP_PORT || 465)
-    const user = process.env.SMTP_USER
-    const pass = process.env.SMTP_PASS
-
-    if (!host || !user || !pass) {
-        return { sent: false, error: 'SMTP não configurado' }
-    }
-
-    const transporter = nodemailer.createTransport({
-        host,
-        port,
-        secure: port === 465,
-        auth: { user, pass },
-    })
-
-    const fromAddress = process.env.SMTP_FROM || user
-    const loginUrl = `${params.origin}/login`
-
-    try {
-        const subject = params.isAdminUser
-            ? 'Acesso Administrativo - VS Cursos'
-            : 'Bem-vindo à VS Cursos — Dados de acesso'
-
-        const textContent = params.isAdminUser
-            ? buildAdminWelcomeEmailText({
-                name: params.name,
-                email: params.to,
-                password: params.password,
-                loginUrl,
-            })
-            : buildWelcomeEmailText({
-                name: params.name,
-                email: params.to,
-                password: params.password,
-                loginUrl,
-                grantAccess: params.grantAccess,
-            })
-
-        const htmlContent = params.isAdminUser
-            ? buildAdminWelcomeEmailHtml({
-                name: params.name,
-                email: params.to,
-                password: params.password,
-                loginUrl,
-            })
-            : buildWelcomeEmailHtml({
-                name: params.name,
-                email: params.to,
-                password: params.password,
-                loginUrl,
-                grantAccess: params.grantAccess,
-            })
-
-        await transporter.sendMail({
-            from: `VS Cursos <${fromAddress}>`,
-            to: params.to,
-            replyTo: params.adminEmail,
-            subject,
-            text: textContent,
-            html: htmlContent,
-        })
-        return { sent: true }
-    } catch (error) {
-        console.error('Error sending welcome email:', error)
-        return { sent: false, error: 'Falha ao enviar e-mail' }
-    }
-}
-
-// GET — List all users with access status
 export async function GET(req: NextRequest) {
     const adminEmail = await verifyAdmin(req)
     if (!adminEmail) {
@@ -429,7 +32,6 @@ export async function GET(req: NextRequest) {
     const supabase = getSupabaseAdmin()
 
     try {
-        // List all users from Supabase Auth
         const { data: authData, error: authError } = await supabase.auth.admin.listUsers()
 
         if (authError) {
@@ -437,25 +39,21 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({ error: 'Erro ao listar usuários' }, { status: 500 })
         }
 
-        // Get all purchases
         const { data: purchases } = await supabase
             .from('purchases')
             .select('user_id, email, paid')
 
-        // Merge data
-        const users = authData.users
-            // .filter(u => !isAdmin(u.email, u.user_metadata)) // Allow admins to be listed
-            .map(u => {
-                const purchase = purchases?.find(p => p.user_id === u.id || p.email === u.email)
-                return {
-                    id: u.id,
-                    email: u.email || '',
-                    name: u.user_metadata?.name || u.user_metadata?.full_name || '',
-                    created_at: u.created_at,
-                    has_access: purchase?.paid || false,
-                    is_admin: !!u.user_metadata?.is_admin,
-                }
-            })
+        const users = authData.users.map(u => {
+            const purchase = purchases?.find(p => p.user_id === u.id || p.email === u.email)
+            return {
+                id: u.id,
+                email: u.email || '',
+                name: u.user_metadata?.name || u.user_metadata?.full_name || '',
+                created_at: u.created_at,
+                has_access: purchase?.paid || false,
+                is_admin: !!u.user_metadata?.is_admin,
+            }
+        })
 
         return NextResponse.json({ users })
     } catch (error) {
@@ -464,7 +62,8 @@ export async function GET(req: NextRequest) {
     }
 }
 
-// POST — Create new user
+// ─── POST — Create new user ────────────────────────────────────────
+
 export async function POST(req: NextRequest) {
     const adminEmail = await verifyAdmin(req)
     if (!adminEmail) {
@@ -484,11 +83,10 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Senha deve ter no mínimo 6 caracteres' }, { status: 400 })
         }
 
-        // Create user in Supabase Auth
         const { data: authUser, error: authError } = await supabase.auth.admin.createUser({
             email,
             password,
-            email_confirm: true, // Skip email verification
+            email_confirm: true,
             user_metadata: { name: name || '', is_admin: !!isAdminUser },
         })
 
@@ -504,7 +102,6 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Erro ao criar usuário' }, { status: 500 })
         }
 
-        // If granting access, create purchase record
         let purchaseError: string | null = null
         if (grantAccess) {
             const purchaseResult = await upsertPurchase({
@@ -549,7 +146,8 @@ export async function POST(req: NextRequest) {
     }
 }
 
-// PATCH — Toggle access
+// ─── PATCH — Toggle access ─────────────────────────────────────────
+
 export async function PATCH(req: NextRequest) {
     const adminEmail = await verifyAdmin(req)
     if (!adminEmail) {
@@ -565,7 +163,6 @@ export async function PATCH(req: NextRequest) {
             return NextResponse.json({ error: 'userId é obrigatório' }, { status: 400 })
         }
 
-        const accessResult = grantAccess
         if (grantAccess) {
             const purchaseResult = await upsertPurchase({
                 supabase,
@@ -598,14 +195,15 @@ export async function PATCH(req: NextRequest) {
 
         console.log(`✅ Access ${grantAccess ? 'granted' : 'revoked'} for user ${userId}`)
 
-        return NextResponse.json({ success: true, has_access: accessResult })
+        return NextResponse.json({ success: true, has_access: grantAccess })
     } catch (error) {
         console.error('Error in PATCH /api/admin/users:', error)
         return NextResponse.json({ error: 'Erro interno' }, { status: 500 })
     }
 }
 
-// DELETE — Remove user
+// ─── DELETE — Remove user ──────────────────────────────────────────
+
 export async function DELETE(req: NextRequest) {
     const adminEmail = await verifyAdmin(req)
     if (!adminEmail) {

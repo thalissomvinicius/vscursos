@@ -2,6 +2,31 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
+/**
+ * Create a Supabase server client for use in the auth callback.
+ * Extracted to avoid duplicating cookie setup across PKCE and magic link flows.
+ */
+async function createCallbackSupabaseClient() {
+    const cookieStore = await cookies()
+
+    return createServerClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        {
+            cookies: {
+                getAll() {
+                    return cookieStore.getAll()
+                },
+                setAll(cookiesToSet: { name: string; value: string; options: CookieOptions }[]) {
+                    cookiesToSet.forEach(({ name, value, options }) => {
+                        cookieStore.set(name, value, options)
+                    })
+                },
+            },
+        }
+    )
+}
+
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url)
     const code = searchParams.get('code')
@@ -11,25 +36,7 @@ export async function GET(req: NextRequest) {
 
     if (code) {
         // PKCE flow — exchange code for session
-        const cookieStore = await cookies()
-
-        const supabase = createServerClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-            {
-                cookies: {
-                    getAll() {
-                        return cookieStore.getAll()
-                    },
-                    setAll(cookiesToSet: { name: string; value: string; options: CookieOptions }[]) {
-                        cookiesToSet.forEach(({ name, value, options }) => {
-                            cookieStore.set(name, value, options)
-                        })
-                    },
-                },
-            }
-        )
-
+        const supabase = await createCallbackSupabaseClient()
         const { error } = await supabase.auth.exchangeCodeForSession(code)
 
         if (!error) {
@@ -41,25 +48,7 @@ export async function GET(req: NextRequest) {
 
     if (token_hash && type) {
         // Token hash flow (magic link / email confirmation)
-        const cookieStore = await cookies()
-
-        const supabase = createServerClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-            {
-                cookies: {
-                    getAll() {
-                        return cookieStore.getAll()
-                    },
-                    setAll(cookiesToSet: { name: string; value: string; options: CookieOptions }[]) {
-                        cookiesToSet.forEach(({ name, value, options }) => {
-                            cookieStore.set(name, value, options)
-                        })
-                    },
-                },
-            }
-        )
-
+        const supabase = await createCallbackSupabaseClient()
         const { error } = await supabase.auth.verifyOtp({
             token_hash,
             type: type as 'magiclink' | 'email',

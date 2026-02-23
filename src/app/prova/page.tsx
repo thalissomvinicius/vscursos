@@ -4,44 +4,33 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { quizzes } from '@/lib/quizzes'
+import { CORE_MODULE_SLUGS } from '@/lib/constants'
+import { useAuth } from '@/hooks/useAuth'
 import Navbar from '@/components/Navbar'
 import QuizCard from '@/components/QuizCard'
+import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import Link from 'next/link'
 
 export default function ProvaPage() {
     const router = useRouter()
-    const [user, setUser] = useState<{ id: string } | null>(null)
+    const { user, isLoading: authLoading } = useAuth()
     const [loading, setLoading] = useState(true)
     const [completed, setCompleted] = useState(false)
 
     useEffect(() => {
         async function loadData() {
-            const {
-                data: { user: authUser },
-            } = await supabase.auth.getUser()
-
-            if (!authUser) {
-                router.push('/login')
-                return
-            }
-            setUser({ id: authUser.id })
+            if (!user) return
 
             // Check prerequisites (5 modules)
             const { data: moduleProgress } = await supabase
                 .from('progress')
                 .select('module_slug')
-                .eq('user_id', authUser.id)
+                .eq('user_id', user.id)
                 .eq('completed', true)
-                .in('module_slug', [
-                    'modulo-1-esocial',
-                    'modulo-2-s2210',
-                    'modulo-3-s2220',
-                    'modulo-4-s2240',
-                    'modulo-5-conclusao',
-                ])
+                .in('module_slug', CORE_MODULE_SLUGS)
 
             const completedCount = moduleProgress?.length || 0
-            if (completedCount < 5) {
+            if (completedCount < CORE_MODULE_SLUGS.length) {
                 router.push('/dashboard')
                 return
             }
@@ -50,7 +39,7 @@ export default function ProvaPage() {
             const { data: progress } = await supabase
                 .from('progress')
                 .select('completed')
-                .eq('user_id', authUser.id)
+                .eq('user_id', user.id)
                 .eq('module_slug', 'prova-final')
                 .single()
 
@@ -60,8 +49,10 @@ export default function ProvaPage() {
             setLoading(false)
         }
 
-        loadData()
-    }, [router])
+        if (!authLoading) {
+            loadData()
+        }
+    }, [user, authLoading, router])
 
     async function handleProvaComplete(passed: boolean) {
         if (!user || !passed) return
@@ -79,15 +70,8 @@ export default function ProvaPage() {
         setCompleted(true)
     }
 
-    if (loading) {
-        return (
-            <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30 flex items-center justify-center">
-                <div className="text-center">
-                    <div className="w-14 h-14 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-                    <p className="text-slate-400 font-medium">Carregando avaliação...</p>
-                </div>
-            </div>
-        )
+    if (authLoading || loading) {
+        return <LoadingSpinner fullScreen size="w-14 h-14" label="Carregando avaliação..." />
     }
 
     const examQuestions = quizzes['prova-final'] || []

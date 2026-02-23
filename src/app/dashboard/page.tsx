@@ -1,110 +1,34 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
+import { MODULES, MODULE_SLUGS } from '@/lib/constants'
+import { useAuth } from '@/hooks/useAuth'
+import { useProgress } from '@/hooks/useProgress'
 import Navbar from '@/components/Navbar'
 import ModuleCard from '@/components/ModuleCard'
 import ProgressBar from '@/components/ProgressBar'
 import CertificateButton from '@/components/CertificateButton'
-
-const MODULES = [
-    {
-        slug: 'modulo-1-esocial',
-        title: 'Fundamentos do eSocial',
-        description: 'O que é o eSocial, legislação e importância para o Técnico em SST.',
-        icon: '📋',
-        order: 1,
-        gradient: 'from-blue-600 to-blue-700',
-    },
-    {
-        slug: 'modulo-2-s2210',
-        title: 'S-2210 | CAT',
-        description: 'Comunicação de Acidente de Trabalho: prazos, preenchimento e impactos.',
-        icon: '🚨',
-        order: 2,
-        gradient: 'from-rose-500 to-rose-600',
-    },
-    {
-        slug: 'modulo-3-s2220',
-        title: 'S-2220 | ASO',
-        description: 'Monitoramento da Saúde Ocupacional: exames, Tabela 27 e prazos.',
-        icon: '🩺',
-        order: 3,
-        gradient: 'from-teal-500 to-teal-600',
-    },
-    {
-        slug: 'modulo-4-s2240',
-        title: 'S-2240 | Agentes Nocivos',
-        description: 'Condições Ambientais: agentes nocivos, Tabela 24, EPI/EPC.',
-        icon: '⚠️',
-        order: 4,
-        gradient: 'from-amber-500 to-amber-600',
-    },
-    {
-        slug: 'modulo-5-conclusao',
-        title: 'Considerações Finais',
-        description: 'Síntese dos eventos, checklist prático e certificado VS Cursos.',
-        icon: '🎓',
-        order: 5,
-        gradient: 'from-indigo-500 to-indigo-600',
-    },
-    {
-        slug: 'prova-final',
-        title: 'Prova Final',
-        description: 'Avaliação final com 10 questões. Acerte 70% para liberar seu certificado.',
-        icon: '🏁',
-        order: 6,
-        gradient: 'from-slate-800 to-slate-900',
-    },
-]
-const MODULE_SLUGS = MODULES.map((module) => module.slug)
-const CORE_MODULE_SLUGS = MODULE_SLUGS.filter((slug) => slug !== 'prova-final')
+import LoadingSpinner from '@/components/ui/LoadingSpinner'
 
 export default function DashboardPage() {
     const router = useRouter()
-    const [user, setUser] = useState<{ id: string; email: string } | null>(null)
-    const [completedModules, setCompletedModules] = useState<string[]>([])
-    const [loading, setLoading] = useState(true)
+    const { user, isLoading: authLoading } = useAuth()
+    const { completedModules, allModulesCompleted, allCompleted, isLoading: progressLoading } = useProgress(user?.id)
+
     const [isDownloadingHandout, setIsDownloadingHandout] = useState(false)
     const [profileName, setProfileName] = useState('')
     const [profileSaving, setProfileSaving] = useState(false)
     const [profileMessage, setProfileMessage] = useState('')
     const [profileError, setProfileError] = useState('')
 
-    const completedSet = new Set(completedModules)
-    const allModulesCompleted = CORE_MODULE_SLUGS.every((slug) => completedSet.has(slug))
-    const allCompleted = MODULE_SLUGS.every((slug) => completedSet.has(slug))
-
-    useEffect(() => {
-        async function loadData() {
-            const {
-                data: { user: authUser },
-            } = await supabase.auth.getUser()
-
-            if (!authUser) {
-                router.push('/login')
-                return
-            }
-
-            setUser({ id: authUser.id, email: authUser.email || '' })
-            setProfileName(authUser.user_metadata?.name || authUser.user_metadata?.full_name || '')
-
-            // Load progress
-            const { data: progress } = await supabase
-                .from('progress')
-                .select('module_slug')
-                .eq('user_id', authUser.id)
-                .eq('completed', true)
-
-            const moduleSlugs = progress?.map((p) => p.module_slug) || []
-            const filteredSlugs = Array.from(new Set(moduleSlugs.filter((slug) => MODULE_SLUGS.includes(slug))))
-            setCompletedModules(filteredSlugs)
-            setLoading(false)
-        }
-
-        loadData()
-    }, [router])
+    // Set profileName once auth loads
+    const [profileInitialized, setProfileInitialized] = useState(false)
+    if (user && !profileInitialized) {
+        setProfileName(user.name || '')
+        setProfileInitialized(true)
+    }
 
     async function handleLogout() {
         await supabase.auth.signOut()
@@ -164,15 +88,8 @@ export default function DashboardPage() {
         }, 6000)
     }
 
-    if (loading) {
-        return (
-            <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30 flex items-center justify-center">
-                <div className="text-center">
-                    <div className="w-14 h-14 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-                    <p className="text-slate-400 font-medium">Carregando seu painel...</p>
-                </div>
-            </div>
-        )
+    if (authLoading || progressLoading) {
+        return <LoadingSpinner fullScreen size="w-14 h-14" label="Carregando seu painel..." />
     }
 
     return (

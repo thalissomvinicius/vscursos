@@ -1,46 +1,32 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { quizzes } from '@/lib/quizzes'
+import { MODULE_META_MAP } from '@/lib/constants'
+import { useAuth } from '@/hooks/useAuth'
 import Navbar from '@/components/Navbar'
 import QuizCard from '@/components/QuizCard'
+import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import Link from 'next/link'
-
-const MODULE_META: Record<string, { gradient: string; icon: string; order: number }> = {
-    'modulo-1-esocial': { gradient: 'from-blue-600 to-blue-700', icon: '📋', order: 1 },
-    'modulo-2-s2210': { gradient: 'from-rose-500 to-rose-600', icon: '🚨', order: 2 },
-    'modulo-3-s2220': { gradient: 'from-teal-500 to-teal-600', icon: '🩺', order: 3 },
-    'modulo-4-s2240': { gradient: 'from-amber-500 to-amber-600', icon: '⚠️', order: 4 },
-    'modulo-5-conclusao': { gradient: 'from-indigo-500 to-indigo-600', icon: '🎓', order: 5 },
-}
 
 export default function ModulePage() {
     const params = useParams()
-    const router = useRouter()
     const slug = params.slug as string
+    const { user, isLoading: authLoading } = useAuth()
 
-    const [user, setUser] = useState<{ id: string } | null>(null)
     const [content, setContent] = useState<string>('')
     const [title, setTitle] = useState('')
     const [completed, setCompleted] = useState(false)
     const [loading, setLoading] = useState(true)
     const [marking, setMarking] = useState(false)
 
-    const meta = MODULE_META[slug] || { gradient: 'from-blue-600 to-blue-700', icon: '📖', order: 0 }
+    const meta = MODULE_META_MAP[slug] || { gradient: 'from-blue-600 to-blue-700', icon: '📖', order: 0, slug, title: slug, description: '' }
 
     useEffect(() => {
         async function loadData() {
-            const {
-                data: { user: authUser },
-            } = await supabase.auth.getUser()
-
-            if (!authUser) {
-                router.push('/login')
-                return
-            }
-            setUser({ id: authUser.id })
+            if (!user) return
 
             // Load content via API
             try {
@@ -58,7 +44,7 @@ export default function ModulePage() {
             const { data: progress } = await supabase
                 .from('progress')
                 .select('completed')
-                .eq('user_id', authUser.id)
+                .eq('user_id', user.id)
                 .eq('module_slug', slug)
                 .single()
 
@@ -66,8 +52,10 @@ export default function ModulePage() {
             setLoading(false)
         }
 
-        loadData()
-    }, [slug, router])
+        if (!authLoading) {
+            loadData()
+        }
+    }, [slug, user, authLoading])
 
     async function handleMarkComplete() {
         if (!user) return
@@ -89,15 +77,8 @@ export default function ModulePage() {
 
     const moduleQuizzes = quizzes[slug] || []
 
-    if (loading) {
-        return (
-            <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30 flex items-center justify-center">
-                <div className="text-center">
-                    <div className="w-14 h-14 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-                    <p className="text-slate-400 font-medium">Carregando módulo...</p>
-                </div>
-            </div>
-        )
+    if (authLoading || loading) {
+        return <LoadingSpinner fullScreen size="w-14 h-14" label="Carregando módulo..." />
     }
 
     return (

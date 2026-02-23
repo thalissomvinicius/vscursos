@@ -3,19 +3,11 @@
 import { useState, useEffect, useCallback } from 'react'
 import { supabase } from '@/lib/supabase'
 import { ADMIN_EMAIL } from '@/lib/admin'
+import type { AdminUser } from '@/types'
 import Navbar from '@/components/Navbar'
 
-interface User {
-    id: string
-    email: string
-    name: string
-    created_at: string
-    has_access: boolean
-    is_admin: boolean
-}
-
 export default function AdminPage() {
-    const [users, setUsers] = useState<User[]>([])
+    const [users, setUsers] = useState<AdminUser[]>([])
     const [loading, setLoading] = useState(true)
     const [adminEmail, setAdminEmail] = useState('')
 
@@ -134,7 +126,7 @@ export default function AdminPage() {
         }
     }
 
-    async function handleSetAccess(user: User, grantAccess: boolean) {
+    async function handleSetAccess(user: AdminUser, grantAccess: boolean) {
         try {
             const res = await fetch('/api/admin/users', {
                 method: 'PATCH',
@@ -411,18 +403,18 @@ export default function AdminPage() {
                                         </thead>
                                         <tbody>
                                             {filteredUsers.map(user => (
-                                            <tr key={user.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition">
+                                                <tr key={user.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition">
                                                     <td className="px-6 py-4">
-                                                    <div className="flex items-center gap-2">
-                                                        <p className="font-semibold text-slate-800 text-sm">
-                                                            {user.name || '—'}
-                                                        </p>
-                                                        {user.is_admin && (
-                                                            <span className="text-[10px] uppercase tracking-widest font-bold text-amber-700 bg-amber-100 px-2 py-1 rounded-full">
-                                                                Admin
-                                                            </span>
-                                                        )}
-                                                    </div>
+                                                        <div className="flex items-center gap-2">
+                                                            <p className="font-semibold text-slate-800 text-sm">
+                                                                {user.name || '—'}
+                                                            </p>
+                                                            {user.is_admin && (
+                                                                <span className="text-[10px] uppercase tracking-widest font-bold text-amber-700 bg-amber-100 px-2 py-1 rounded-full">
+                                                                    Admin
+                                                                </span>
+                                                            )}
+                                                        </div>
                                                         <p className="text-slate-500 text-xs mt-0.5">{user.email}</p>
                                                     </td>
                                                     <td className="px-6 py-4">

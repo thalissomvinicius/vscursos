@@ -1,28 +1,20 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { supabase } from '@/lib/supabase'
+import { useAuth } from '@/hooks/useAuth'
 import Navbar from '@/components/Navbar'
+import LoadingSpinner from '@/components/ui/LoadingSpinner'
+import GradientButton from '@/components/ui/GradientButton'
+import StatusBadge from '@/components/ui/StatusBadge'
 import Link from 'next/link'
 
 export default function CertificadoPage() {
-    const [name, setName] = useState('')
+    const { user, isLoading: authLoading } = useAuth()
+    const name = user?.name || ''
     const [loading, setLoading] = useState(false)
-    const [loadingUser, setLoadingUser] = useState(true)
     const [done, setDone] = useState(false)
     const [error, setError] = useState('')
-
-    useEffect(() => {
-        async function loadUser() {
-            const { data: { user } } = await supabase.auth.getUser()
-            if (user) {
-                const fetchedName = user.user_metadata?.name || user.user_metadata?.full_name || ''
-                setName(fetchedName)
-            }
-            setLoadingUser(false)
-        }
-        loadUser()
-    }, [])
 
     async function handleDownload() {
         setLoading(true)
@@ -67,12 +59,8 @@ export default function CertificadoPage() {
         }
     }
 
-    if (loadingUser) {
-        return (
-            <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-                <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
-            </div>
-        )
+    if (authLoading) {
+        return <LoadingSpinner fullScreen />
     }
 
     return (
@@ -125,9 +113,7 @@ export default function CertificadoPage() {
                                 </div>
 
                                 {error && (
-                                    <p className="text-red-500 text-sm text-center bg-red-50 rounded-lg p-3">
-                                        {error}
-                                    </p>
+                                    <StatusBadge type="error">{error}</StatusBadge>
                                 )}
 
                                 {!name && (
@@ -136,23 +122,15 @@ export default function CertificadoPage() {
                                     </p>
                                 )}
 
-                                <button
+                                <GradientButton
                                     onClick={handleDownload}
-                                    disabled={!name || loading}
-                                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-blue-200/50 disabled:opacity-50 disabled:cursor-not-allowed text-lg"
+                                    disabled={!name}
+                                    loading={loading}
+                                    loadingLabel="Gerando..."
+                                    className="w-full text-lg"
                                 >
-                                    {loading ? (
-                                        <span className="flex items-center justify-center gap-2">
-                                            <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
-                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                                            </svg>
-                                            Gerando...
-                                        </span>
-                                    ) : (
-                                        '⬇️ Confirmar e Baixar'
-                                    )}
-                                </button>
+                                    ⬇️ Confirmar e Baixar
+                                </GradientButton>
 
                                 <p className="text-xs text-slate-400 leading-relaxed px-4">
                                     O certificado é emitido com seu nome oficial de cadastro por segurança.
