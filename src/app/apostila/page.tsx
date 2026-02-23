@@ -146,7 +146,7 @@ function ApostilaContent() {
                 pageIndex += 1
             }
 
-            pdf.save(`Apostila_eSocial_SST_TS_Cursos.pdf`)
+            pdf.save(`Apostila_eSocial_SST_VS_Cursos.pdf`)
         } catch (error: unknown) {
             console.error('Erro detalhado ao gerar PDF:', error)
             const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido'
@@ -193,7 +193,7 @@ function ApostilaContent() {
                 <div className="print-only fixed top-0 left-0 right-0 h-[30mm] px-[20mm] py-8 bg-white z-[100] pointer-events-none">
                     <div className="flex justify-between items-center h-full border-b border-slate-200 pb-2">
                         <div className="flex items-center gap-2">
-                            <span className="text-xl font-extrabold text-blue-800">TeS</span>
+                            <span className="text-xl font-extrabold text-blue-800">VS</span>
                             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Cursos</span>
                         </div>
                         <div className="text-[10px] font-bold text-slate-400 text-right uppercase tracking-widest">
@@ -205,7 +205,7 @@ function ApostilaContent() {
                 {/* ────── PRINT FOOTER (Only visible on print) ────── */}
                 <div className="print-only fixed bottom-0 left-0 right-0 h-[15mm] border-t border-slate-100 px-[20mm] py-4 bg-white z-[100] text-center pointer-events-none">
                     <div className="text-[8px] font-bold text-slate-300 uppercase tracking-widest">
-                        © TeS CURSOS • DOCUMENTO PARA USO DIDÁTICO • WWW.TES-CURSOS.VERCEL.APP
+                        © VS CURSOS • DOCUMENTO PARA USO DIDÁTICO
                     </div>
                 </div>
 

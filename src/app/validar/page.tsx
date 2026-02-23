@@ -73,7 +73,7 @@ function ValidarContent() {
                             <form onSubmit={handleVerify} className="flex flex-col sm:flex-row gap-3 mb-8">
                                 <input
                                     type="text"
-                                    placeholder="Ex: TES-177..."
+                                    placeholder="Ex: VS-177..."
                                     value={code}
                                     onChange={(e) => setCode(e.target.value)}
                                     className="flex-1 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"

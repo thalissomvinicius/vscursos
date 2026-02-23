@@ -5,7 +5,7 @@ import Navbar from '@/components/Navbar'
 import { supabase } from '@/lib/supabase'
 
 const WHATSAPP_NUMBER = '5591992770425'
-const WHATSAPP_MESSAGE = encodeURIComponent('Olá! Tenho interesse no curso eSocial na Prática — SST da TeS Cursos. Gostaria de mais informações sobre como adquirir.')
+const WHATSAPP_MESSAGE = encodeURIComponent('Olá! Tenho interesse no curso eSocial na Prática — SST da VS Cursos. Gostaria de mais informações sobre como adquirir.')
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MESSAGE}`
 
 const MODULES = [
@@ -32,7 +32,7 @@ const MODULES = [
   {
     icon: '🎓',
     title: 'Considerações Finais',
-    desc: 'Síntese dos eventos, checklist prático e emissão do certificado TeS Cursos.',
+    desc: 'Síntese dos eventos, checklist prático e emissão do certificado VS Cursos.',
   },
 ]
 

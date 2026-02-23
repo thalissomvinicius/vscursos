@@ -1,4 +1,4 @@
-# T&S Treinamentos — Plataforma de EAD Premium 🎓
+# VS Cursos — Plataforma de EAD Premium 🎓
 
 Uma plataforma de cursos online moderna, desenvolvida para oferecer uma experiência de aprendizado fluida, segura e esteticamente premium. Focada no setor de SST (Saúde e Segurança do Trabalho), o projeto combina tecnologia de ponta com um design focado no usuário.
 

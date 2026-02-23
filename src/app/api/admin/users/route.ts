@@ -371,8 +371,8 @@ async function sendWelcomeEmail(params: {
 
     try {
         const subject = params.isAdminUser
-            ? 'Acesso Administrativo - TeS Cursos'
-            : 'Bem-vindo à TeS Cursos — Dados de acesso'
+            ? 'Acesso Administrativo - VS Cursos'
+            : 'Bem-vindo à VS Cursos — Dados de acesso'
 
         const textContent = params.isAdminUser
             ? buildAdminWelcomeEmailText({

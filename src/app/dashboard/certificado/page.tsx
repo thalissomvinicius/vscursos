@@ -56,7 +56,7 @@ export default function CertificadoPage() {
             const url = URL.createObjectURL(blob)
             const a = document.createElement('a')
             a.href = url
-            a.download = 'certificado-tes-cursos.pdf'
+            a.download = 'certificado-vs-cursos.pdf'
             a.click()
             URL.revokeObjectURL(url)
             setDone(true)
