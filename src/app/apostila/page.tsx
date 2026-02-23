@@ -487,10 +487,6 @@ function ApostilaContent() {
                                     <div className="text-base sm:text-lg mb-2 text-slate-700">Biológicos</div>
                                     <p className="text-[10px] text-slate-500 leading-relaxed">Micro-organismos como vírus, bactérias e fungos.</p>
                                 </div>
-                                <div className="p-4 sm:p-6 bg-slate-50 rounded-2xl sm:rounded-3xl border border-slate-100">
-                                    <div className="text-base sm:text-lg mb-2 text-slate-700">Ergonômicos</div>
-                                    <p className="text-[10px] text-slate-500 leading-relaxed">Repetitividade, posturas inadequadas e cargas.</p>
-                                </div>
                             </div>
                         </section>
 
