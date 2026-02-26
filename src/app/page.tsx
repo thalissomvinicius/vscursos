@@ -355,15 +355,24 @@ export default function LandingPage() {
 
             {/* Price */}
             <div className="px-8 py-10 text-center">
+              <div className="inline-flex items-center gap-1.5 bg-red-50 text-red-600 text-xs font-bold px-3 py-1.5 rounded-full mb-6 animate-pulse border border-red-100">
+                <span>🔥</span>
+                Apenas 15 vagas restantes!
+              </div>
+
               <div className="mb-2">
-                <span className="text-sm text-slate-400 line-through">R$ 197,00</span>
+                <span className="text-sm text-slate-400 line-through">R$ 110,00</span>
               </div>
               <div className="flex items-baseline justify-center gap-1 mb-2">
                 <span className="text-sm text-slate-500 font-semibold">R$</span>
                 <span className="text-5xl font-extrabold text-slate-900">89</span>
                 <span className="text-lg text-slate-500">,90</span>
               </div>
-              <p className="text-slate-400 text-sm mb-8">
+              
+              <p className="text-green-600 font-bold text-sm mb-1">
+                Promoção para os 30 primeiros alunos
+              </p>
+              <p className="text-slate-400 text-xs mb-8">
                 Pagamento único • Acesso vitalício
               </p>
 
